@@ -17,6 +17,7 @@
                     id="model-option-radio-button"
                     name="upload-option"
                     class="radio"
+                    onclick="showHidePromptInput()"
                 />
                 <label for="upload-options" class="design-content-column-radio-button-label">Upload Your 3D Model</label>                
             </div>              
@@ -29,8 +30,34 @@
                     id="text-option-radio-button"
                     name="upload-option"
                     class="radio"
+                    onclick="showHidePromptInput()"
                 />
                 <label for="upload-options" class="design-content-column-radio-button-label">Or type a description and let our AI create your model!</label>                
+            </div> 
+            <div class="design-content-column-uploader" id="file-uploader" style="display: none">
+                <input
+                    type="file"
+                    id="image-input"
+                    name="image-input"
+                    accept="image/png, image/jpeg"
+                    class="button"
+                    style="display:none;"
+                    onchange="updateFileSelectButtonLabel()"
+                />
+                <label for="image-input" class="file-select-button" id="file-select-button-label">Select File</label>
+                <input
+                    type="submit"
+                    class="button"
+                    value="Upload"
+                    id="upload-button"
+                    style="display:none;"
+                    onclick="uploadFile()"
+                />                    
+                <label for="upload-button" class="upload-button" id="upload-button-label">Upload</label>
+                <div class="upload-loader" style="display: none" id="upload-loader"><img id="loader-gif" width=15 height=15 src="images/loading.gif"/><span id="image-progress"> processing 0%</span></div>
+            </div>           
+            <div class="design-content-column-textarea" id="prompt-input" style="display: none">
+                <textarea type="text"></textarea>
             </div>
             <div class="design-content-column-button">
                 <button>
@@ -150,3 +177,63 @@
         </div>
     </div>
 </div>
+<script>
+    const showHidePromptInput = function() {
+        const radioButton = document.getElementById("text-option-radio-button");
+        const promptInput = document.getElementById("prompt-input");
+        const fileUploader = document.getElementById("file-uploader");
+        if (radioButton.checked) {
+            promptInput.style.display = "unset";
+            fileUploader.style.display = "none";
+        } else {
+            promptInput.style.display = "none";
+            fileUploader.style.display = "unset";
+        }
+    }
+    const updateFileSelectButtonLabel = function() {
+        const label = document.getElementById('file-select-button-label');
+        const imageInput = document.getElementById("image-input")
+        label.innerHTML = imageInput.files[0].name;
+    }
+    const uploadFile = async function() {       
+        
+        const imageInput = document.getElementById("image-input")
+        const file = imageInput.files[0];
+        imageInput.disabled = true;
+        const uploadButtonLabel = document.getElementById('upload-button-label');
+        uploadButtonLabel.style.display = "none";
+        const uploadLoader = document.getElementById("upload-loader");
+        uploadLoader.style.display = "unset";
+        
+        document.getElementById("text-option-radio-button").disabled = true;
+
+        var data = new FormData()
+        data.append('file', imageInput.files[0])
+
+        var taskId = "";
+        var res = await fetch("/api/image", { body: data, method: "POST" });
+        var json = {}
+        if (res.ok) {
+            json = await res.json();
+            taskId = json.taskId;
+        }
+
+        var progress = 0;
+        var thumbnailUrl = "";
+        while (progress < 100) {
+            await new Promise(resolve => setTimeout(resolve, 5000));
+            res = await fetch("/api/image/?taskId=" + taskId);
+            if (res.ok) {
+                json = await res.json();
+                progress = json.progress;
+                const imageProgress = document.getElementById("image-progress");
+                imageProgress.innerHTML = ` processing ${progress}%`;
+                if (progress === 100) {
+                    thumbnailUrl = json.thumbnailUrl;
+                    const loaderGif = document.getElementById("loader-gif");
+                    loaderGif.style.display = 'none'
+                }
+            }         
+        }
+    }
+</script>
