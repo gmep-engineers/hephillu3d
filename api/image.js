@@ -1,9 +1,9 @@
 const { imageSizeFromFile } = require("image-size/fromFile");
 const config = require("../etc/config");
 const axios = require("axios");
-const fs = require("fs");
 
 const { readFile } = require("node:fs/promises");
+const { unlink } = require("node:fs/promises");
 const {
   PutObjectCommand,
   S3Client,
@@ -11,29 +11,6 @@ const {
 } = require("@aws-sdk/client-s3");
 
 const image = {
-  get: async function (dto) {
-    const taskId = dto.taskId;
-    const headers = { Authorization: `Bearer ${config.API_KEY}` };
-    try {
-      const response = await axios.get(
-        `https://api.meshy.ai/openapi/v1/image-to-3d/${taskId}`,
-        { headers }
-      );
-      if (response.data.progress < 100) {
-        return { status: 200, payload: { progress: response.data.progress } };
-      } else {
-        return {
-          status: 200,
-          payload: {
-            progress: response.data.progress,
-            thumbnail_url: response.data.thumbnail_url,
-          },
-        };
-      }
-    } catch (err) {
-      return { status: 500, payload: { error: "server error" } };
-    }
-  },
   post: async function (dto) {
     const file = dto.file;
     var s3Image = "";
@@ -59,7 +36,8 @@ const image = {
         });
         try {
           const response = await client.send(command);
-          s3Image = `https://gmep-meshy-api-images-2025-06-10.s3.us-east-1.amazonaws.com/${file.originalname}`;
+          s3Image = `https://gmep-meshy-api-images-2025-06-10.s3.us-east-1.amazonaws.com/${file.filename}`;
+          await unlink("./uploads/" + file.filename);
         } catch (err) {
           if (
             err instanceof S3ServiceException &&
@@ -97,15 +75,6 @@ const image = {
       taskId = response.data.result;
     } catch (error) {}
 
-    const date = new Date();
-    fs.appendFile(
-      "tasks.txt",
-      "\n" + date.toISOString() + " " + taskId,
-      (err) => {
-        if (err) {
-        }
-      }
-    );
     return { status: 201, payload: { taskId: taskId } };
   },
 };

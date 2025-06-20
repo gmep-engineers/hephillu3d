@@ -5,6 +5,9 @@ const design = require("./pages/design");
 
 const getPublicPage = require("./lib/getPublicPage");
 const imageRouter = require("./routers/image");
+const modelRouter = require("./routers/model");
+const taskRouter = require("./routers/task");
+const textRouter = require("./routers/text");
 
 const rateLimit = require("express-rate-limit");
 
@@ -24,6 +27,9 @@ app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
 
 app.use("/api/image", imageRouter);
+app.use("/api/model", modelRouter);
+app.use("/api/task", taskRouter);
+app.use("/api/text", textRouter);
 
 app.get("/", async (req, res) => {
   await getPublicPage(req, res, home);
