@@ -63,10 +63,12 @@
             <div class="design-content-column-textarea" id="prompt-input" style="display: none">
                 <textarea type="text" id="prompt-input-textarea" style="resize: none"></textarea> 
             </div>
-            <div class="design-content-column-button">
-                <button onclick="handleContinue()">
-                    Continue
-                </button>
+            <div class="design-content-column-button-container">
+                <div class="design-content-column-button">
+                    <button onclick="handleContinue()">
+                        Continue
+                    </button>
+                </div>
             </div>
         </div>
         <div class="design-content-column-container">
@@ -82,6 +84,7 @@
                     id="small-option-radio-button"
                     name="glow-option"
                     class="radio"
+                    onclick="setGlowOption('Small')"
                 />
                 <label for="glow-options" class="design-content-column-radio-button-label">Small</label>                
             </div>         
@@ -91,6 +94,7 @@
                     id="medium-option-radio-button"
                     name="glow-option"
                     class="radio"
+                    onclick="setGlowOption('Medium')"
                 />
                 <label for="glow-options" class="design-content-column-radio-button-label">Medium</label>                
             </div><div class="design-content-column-radio-button-list-item">
@@ -99,6 +103,7 @@
                     id="larg-option-radio-button"
                     name="glow-option"
                     class="radio"
+                    onclick="setGlowOption('Large')"
                 />
                 <label for="glow-options" class="design-content-column-radio-button-label">Large</label>                
             </div>
@@ -109,36 +114,36 @@
                     id="larg-option-radio-button"
                     name="candle-option"
                     class="checkbox"
+                    onclick="setLedCandle(this)"
                 />
                 <label for="candle-options" class="design-content-column-radio-button-label">LED Candle</label>                
             </div>
             <div class="design-content-column-radio-button-sublabel">
                 Add an LED tea light candle inside
             </div>
-            <div class="design-content-column-button">
-                <button>
-                    Add to Cart
-                </button>
+            <div class="design-content-column-button-container">
+                <div class="design-content-column-button">
+                    <button>
+                        Add to Cart
+                    </button>
+                </div>
             </div>
         </div>
         <div class="design-content-column-container">
             <div class="design-content-column-title">
                 Checkout
             </div>
-            <div class="design-content-column-invoice-container">
+            <div class="design-content-column-invoice-container" id="invoice-container" style="display: none">
                 <!-- template -->
                 <div class="design-content-column-invoice-preview-container">
-                    <div class="design-content-column-invoice-preview-column">
+                    <div class="design-content-column-invoice-preview-column" id="preview-result">
                         <img id="preview-thumbnail" style="border-radius: 7px" height=100 src="images/home.png" />
                     </div>
-                    <div class="design-content-column-invoice-preview-column">
-                        <div class="design-content-column-invoice-preview-column-title">
-                            Pumpkin Cat
+                    <div class="design-content-column-invoice-preview-column">                        
+                        <textarea id="name-textarea" placeholder="Give it a name!"></textarea>
+                        <div class="design-content-column-invoice-preview-column-subtitle" id="glow-option-value">
                         </div>
-                        <div class="design-content-column-invoice-preview-column-subtitle">
-                            Size, Medium
-                        </div>
-                        <div class="design-content-column-invoice-preview-column-candle-type">
+                        <div class="design-content-column-invoice-preview-column-candle-type" style="display: none", id="led-candle-value">
                             LED Candle
                         </div>
                     </div>
@@ -173,10 +178,12 @@
                 </div>
                 <!-- end template -->
             </div>            
-            <div class="design-content-column-button">
-                <button>
-                    Proceed to Payment
-                </button>
+            <div class="design-content-column-button-container">
+                <div class="design-content-column-button">
+                    <button>
+                        Proceed to Payment
+                    </button>
+                </div>
             </div>
         </div>
     </div>    
@@ -214,6 +221,15 @@
         label.innerHTML = imageInput.files[0].name;
     }
 
+    const setCheckoutElems = function(thumbnailUrl) {
+        const previewThumbnail = document.getElementById("preview-thumbnail");
+        previewThumbnail.setAttribute('src', thumbnailUrl)
+        const loaderGif = document.getElementById("loader-gif");
+        loaderGif.style.display = 'none'     
+        const invoiceContainer = document.getElementById("invoice-container");
+        invoiceContainer.style.display = 'unset';  
+    }
+
     const checkTaskProgress = async function(taskId) {
         var progress = 0;
         var thumbnailUrl = "";
@@ -227,11 +243,7 @@
                 const imageProgress = document.getElementById("image-progress");
                 imageProgress.innerHTML = ` processing ${progress}%`;
                 if (progress === 100) {
-                    thumbnailUrl = json.thumbnail_url;
-                    const previewThumbnail = document.getElementById("preview-thumbnail");
-                    previewThumbnail.setAttribute('src', thumbnailUrl)
-                    const loaderGif = document.getElementById("loader-gif");
-                    loaderGif.style.display = 'none'                    
+                    setCheckoutElems(json.thumbnail_url);
                 }
             }         
         }
@@ -279,13 +291,12 @@
             const modelViewer = document.getElementById("uploaded-3d-model");
             modelViewer.setAttribute("src", s3File);
             const imageProgress = document.getElementById("image-progress");
-            imageProgress.innerHTML = ` processing 100%`;    
+            imageProgress.innerHTML = ` processing 100%`;      
+            setCheckoutElems(json.thumbnail_url);                
             const previewThumbnail = document.getElementById("preview-thumbnail");
             previewThumbnail.setAttribute('src', "/images/preview.png")
             previewThumbnail.setAttribute('onclick', "open3dViewer()")
-            previewThumbnail.style.cursor = "pointer";
-            const loaderGif = document.getElementById("loader-gif");
-            loaderGif.style.display = 'none'             
+            previewThumbnail.style.cursor = "pointer";  
         }
     }
     const open3dViewer = async function() {
@@ -331,6 +342,20 @@
         }
          else if (imageOptionRadioButton.checked) {
             await uploadModel();
+        }
+    }
+
+    const setGlowOption = function(option) {
+        const glowOptionValue = document.getElementById("glow-option-value");
+        glowOptionValue.innerHTML = "Size, " + option;
+    }
+
+    const setLedCandle = function(elem) {
+        const ledCandleValue = document.getElementById("led-candle-value");
+        if (elem.checked) {
+            ledCandleValue.style.display = "unset";
+        } else {
+            ledCandleValue.style.display = "none";
         }
     }
 </script>
