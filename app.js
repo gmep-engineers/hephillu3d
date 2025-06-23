@@ -9,19 +9,8 @@ const modelRouter = require("./routers/model");
 const taskRouter = require("./routers/task");
 const textRouter = require("./routers/text");
 
-const rateLimit = require("express-rate-limit");
-
 const app = express();
 app.use(express.json());
-
-const limiter = rateLimit({
-  windowMs: 30 * 1000,
-  limit: 30,
-  standardHeaders: "draft-8",
-  legacyHeaders: false,
-});
-
-app.use(limiter);
 
 app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
