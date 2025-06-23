@@ -100,7 +100,7 @@
             </div><div class="design-content-column-radio-button-list-item">
                 <input
                     type="radio"
-                    id="larg-option-radio-button"
+                    id="large-option-radio-button"
                     name="glow-option"
                     class="radio"
                     onclick="setGlowOption('Large')"
@@ -111,7 +111,7 @@
             <div class="design-content-column-radio-button-list-item">
                 <input
                     type="checkbox"
-                    id="larg-option-radio-button"
+                    id="led-candle-option-checkbox"
                     name="candle-option"
                     class="checkbox"
                     onclick="setLedCandle(this)"
@@ -177,7 +177,7 @@
                     </div>
                 </div>
                 <!-- end template -->
-            </div>            
+            </div>
             <div class="design-content-column-button-container">
                 <div class="design-content-column-button">
                     <button>
@@ -235,7 +235,6 @@
         var thumbnailUrl = "";
         var json = {}
         while (progress < 100) {
-            await new Promise(resolve => setTimeout(resolve, 5000));
             res = await fetch("/api/task/?id=" + taskId);
             if (res.ok) {
                 json = await res.json();
@@ -245,7 +244,8 @@
                 if (progress === 100) {
                     setCheckoutElems(json.thumbnail_url);
                 }
-            }         
+            }             
+            await new Promise(resolve => setTimeout(resolve, 5000));       
         }
     }
 
@@ -266,7 +266,8 @@
         var json = {}
         if (res.ok) {
             json = await res.json();
-            taskId = json.taskId;            
+            taskId = json.taskId;          
+            localStorage.setItem("taskId", taskId);   
             await checkTaskProgress(taskId);
         }
     }
@@ -334,7 +335,8 @@
             var taskId = "";
             if (res.ok) {
                 json = await res.json();
-                taskId = json.taskId;                              
+                taskId = json.taskId;        
+                localStorage.setItem("taskId", taskId);                      
                 await checkTaskProgress(taskId);
             }
         } else if (modelOptionRadioButton.checked) {
@@ -348,6 +350,7 @@
     const setGlowOption = function(option) {
         const glowOptionValue = document.getElementById("glow-option-value");
         glowOptionValue.innerHTML = "Size, " + option;
+        localStorage.setItem("glowOption", option)
     }
 
     const setLedCandle = function(elem) {
@@ -357,6 +360,36 @@
         } else {
             ledCandleValue.style.display = "none";
         }
+        localStorage.setItem("ledCandle", elem.checked)
+    }
+
+    const nameTextArea = document.getElementById("name-textarea");
+    nameTextArea.addEventListener("keyup", () => {
+        localStorage.setItem("nameTextArea", nameTextArea.value)
+    })
+
+    var taskId = localStorage.getItem("taskId");
+    if (taskId) {
+        checkTaskProgress(taskId);
+    }
+
+    var glowOption = localStorage.getItem("glowOption");
+    if (glowOption !== "null") {
+        const glowOptionRadioButton = document.getElementById(glowOption.toLowerCase() + "-option-radio-button");
+        glowOptionRadioButton.checked = true;
+    }
+
+    var ledCandle = localStorage.getItem("ledCandle");
+    if (ledCandle === "true") {
+        const ledCandleValue = document.getElementById("led-candle-value");
+        ledCandleValue.style.display = "unset";       
+        const ledCandleOptionCheckBox = document.getElementById("led-candle-option-checkbox");
+        ledCandleOptionCheckBox.checked = true;
+    }   
+
+    var name = localStorage.getItem("nameTextArea");
+    if (name !== "null") {
+        nameTextArea.value = name;
     }
 </script>
 <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
