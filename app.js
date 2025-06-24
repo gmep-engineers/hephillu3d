@@ -1,6 +1,7 @@
 const express = require("express");
 var path = require("path");
 const home = require("./pages/home");
+const signUp = require("./pages/signUp");
 const design = require("./pages/design");
 
 const getPublicPage = require("./lib/getPublicPage");
@@ -22,6 +23,10 @@ app.use("/api/text", textRouter);
 
 app.get("/", async (req, res) => {
   await getPublicPage(req, res, home);
+});
+
+app.get("/sign-up", async (req, res) => {
+  await getPublicPage(req, res, signUp);
 });
 
 app.get("/design", async (req, res) => {

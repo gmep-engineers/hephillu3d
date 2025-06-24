@@ -2,15 +2,15 @@
     <div class="design-title-container">
         <div class="design-title-text">Hephillu3d</div>        
     </div>
-    <div class="design-content-container">
-        <div class="design-content-column-container">
-            <div class="design-content-column-title">
+    <div class="content-container">
+        <div class="content-column-container">
+            <div class="content-column-title">
                 Upload & Preview
             </div>
-            <div class="design-content-column-subtitle">
+            <div class="content-column-subtitle">
                 Choose how you'd like to start:
             </div>
-            <div class="design-content-column-radio-button-list-item">
+            <div class="content-column-radio-button-list-item">
                 <input
                     type="radio"
                     id="model-option-radio-button"
@@ -18,12 +18,12 @@
                     class="radio"
                     onclick="showHidePromptInput()"
                 />
-                <label for="upload-options" class="design-content-column-radio-button-label">Upload Your 3D Model</label>                
+                <label for="upload-options" class="content-column-radio-button-label">Upload Your 3D Model</label>                
             </div>              
-            <div class="design-content-column-radio-button-sublabel">
+            <div class="content-column-radio-button-sublabel">
                 (.glb only)
             </div>      
-            <div class="design-content-column-radio-button-list-item">
+            <div class="content-column-radio-button-list-item">
                 <input
                     type="radio"
                     id="text-option-radio-button"
@@ -31,10 +31,10 @@
                     class="radio"
                     onclick="showHidePromptInput()"
                 />
-                <label for="upload-options" class="design-content-column-radio-button-label">Or type a description and let our AI create your model!</label>                
+                <label for="upload-options" class="content-column-radio-button-label">Or type a description and let our AI create your model!</label>                
             </div> 
             <!--
-            <div class="design-content-column-uploader" id="file-uploader" style="display: none">
+            <div class="content-column-uploader" id="file-uploader" style="display: none">
                 <input
                     type="file"
                     id="image-input"
@@ -47,7 +47,7 @@
                 <label for="image-input" class="file-select-button" id="file-select-button-label">Select File</label>
             </div>   
             --> 
-             <div class="design-content-column-uploader" id="file-uploader" style="display: none">
+             <div class="content-column-uploader" id="file-uploader" style="display: none">
                 <input
                     type="file"
                     id="model-input"
@@ -60,25 +60,25 @@
                 <label for="model-input" class="file-select-button" id="file-select-button-label">Select File</label>
             </div>  
             <div class="upload-loader" style="display: none" id="upload-loader"><img id="loader-gif" width=15 height=15 src="images/loading.gif"/><span id="image-progress"> processing 0%</span></div>
-            <div class="design-content-column-textarea" id="prompt-input" style="display: none">
+            <div class="content-column-textarea" id="prompt-input" style="display: none">
                 <textarea type="text" id="prompt-input-textarea" style="resize: none"></textarea> 
             </div>
-            <div class="design-content-column-button-container">
-                <div class="design-content-column-button">
+            <div class="content-column-button-container">
+                <div class="content-column-button">
                     <button onclick="handleContinue()">
                         Continue
                     </button>
                 </div>
             </div>
         </div>
-        <div class="design-content-column-container">
-            <div class="design-content-column-title">
+        <div class="content-column-container">
+            <div class="content-column-title">
                 Design Your Glow
             </div>
-            <div class="design-content-column-subtitle">
+            <div class="content-column-subtitle">
                 Size:
             </div>
-            <div class="design-content-column-radio-button-list-item">
+            <div class="content-column-radio-button-list-item">
                 <input
                     type="radio"
                     id="small-option-radio-button"
@@ -86,9 +86,9 @@
                     class="radio"
                     onclick="setGlowOption('Small')"
                 />
-                <label for="glow-options" class="design-content-column-radio-button-label">Small</label>                
+                <label for="glow-options" class="content-column-radio-button-label">Small</label>                
             </div>         
-            <div class="design-content-column-radio-button-list-item">
+            <div class="content-column-radio-button-list-item">
                 <input
                     type="radio"
                     id="medium-option-radio-button"
@@ -96,8 +96,8 @@
                     class="radio"
                     onclick="setGlowOption('Medium')"
                 />
-                <label for="glow-options" class="design-content-column-radio-button-label">Medium</label>                
-            </div><div class="design-content-column-radio-button-list-item">
+                <label for="glow-options" class="content-column-radio-button-label">Medium</label>                
+            </div><div class="content-column-radio-button-list-item">
                 <input
                     type="radio"
                     id="large-option-radio-button"
@@ -105,10 +105,10 @@
                     class="radio"
                     onclick="setGlowOption('Large')"
                 />
-                <label for="glow-options" class="design-content-column-radio-button-label">Large</label>                
+                <label for="glow-options" class="content-column-radio-button-label">Large</label>                
             </div>
             <hr/>
-            <div class="design-content-column-radio-button-list-item">
+            <div class="content-column-radio-button-list-item">
                 <input
                     type="checkbox"
                     id="led-candle-option-checkbox"
@@ -116,70 +116,70 @@
                     class="checkbox"
                     onclick="setLedCandle(this)"
                 />
-                <label for="candle-options" class="design-content-column-radio-button-label">LED Candle</label>                
+                <label for="candle-options" class="content-column-radio-button-label">LED Candle</label>                
             </div>
-            <div class="design-content-column-radio-button-sublabel">
+            <div class="content-column-radio-button-sublabel">
                 Add an LED tea light candle inside
             </div>
-            <div class="design-content-column-button-container">
-                <div class="design-content-column-button">
+            <div class="content-column-button-container">
+                <div class="content-column-button">
                     <button>
                         Add to Cart
                     </button>
                 </div>
             </div>
         </div>
-        <div class="design-content-column-container">
-            <div class="design-content-column-title">
+        <div class="content-column-container">
+            <div class="content-column-title">
                 Checkout
             </div>
-            <div class="design-content-column-invoice-container" id="invoice-container" style="display: none">
+            <div class="content-column-invoice-container" id="invoice-container" style="display: none">
                 <!-- template -->
-                <div class="design-content-column-invoice-preview-container">
-                    <div class="design-content-column-invoice-preview-column" id="preview-result">
+                <div class="content-column-invoice-preview-container">
+                    <div class="content-column-invoice-preview-column" id="preview-result">
                         <img id="preview-thumbnail" style="border-radius: 7px" height=100 src="images/home.png" />
                     </div>
-                    <div class="design-content-column-invoice-preview-column">                        
+                    <div class="content-column-invoice-preview-column">                        
                         <textarea id="name-textarea" placeholder="Give it a name!"></textarea>
-                        <div class="design-content-column-invoice-preview-column-subtitle" id="glow-option-value">
+                        <div class="content-column-invoice-preview-column-subtitle" id="glow-option-value">
                         </div>
-                        <div class="design-content-column-invoice-preview-column-candle-type" style="display: none", id="led-candle-value">
+                        <div class="content-column-invoice-preview-column-candle-type" style="display: none", id="led-candle-value">
                             LED Candle
                         </div>
                     </div>
                 </div>
                 <hr/>
-                <div class="design-content-column-invoice-amount-container">
-                    <div class="design-content-column-invoice-amount-line-item">
-                        <div class="design-content-column-invoice-amount-line-item-title">
+                <div class="content-column-invoice-amount-container">
+                    <div class="content-column-invoice-amount-line-item">
+                        <div class="content-column-invoice-amount-line-item-title">
                             Subtotal
                         </div>
-                        <div class="design-content-column-invoice-amount-line-item-amount">
+                        <div class="content-column-invoice-amount-line-item-amount">
                             $25.00
                         </div>
                     </div>
-                    <div class="design-content-column-invoice-amount-line-item">
-                        <div class="design-content-column-invoice-amount-line-item-title">
+                    <div class="content-column-invoice-amount-line-item">
+                        <div class="content-column-invoice-amount-line-item-title">
                             Shipping
                         </div>
-                        <div class="design-content-column-invoice-amount-line-item-amount">
+                        <div class="content-column-invoice-amount-line-item-amount">
                             $4.99
                         </div>
                     </div>
                     <hr/>
-                    <div class="design-content-column-invoice-amount-line-item">
-                        <div class="design-content-column-invoice-amount-line-item-title">
+                    <div class="content-column-invoice-amount-line-item">
+                        <div class="content-column-invoice-amount-line-item-title">
                             Total
                         </div>
-                        <div class="design-content-column-invoice-amount-line-item-amount">
+                        <div class="content-column-invoice-amount-line-item-amount">
                             $29.99
                         </div>
                     </div>
                 </div>
                 <!-- end template -->
             </div>
-            <div class="design-content-column-button-container">
-                <div class="design-content-column-button">
+            <div class="content-column-button-container">
+                <div class="content-column-button">
                     <button>
                         Proceed to Payment
                     </button>

@@ -16,6 +16,13 @@ body {
 
 }
 
+a {
+    text-decoration: none;
+    color: var(--link-color);
+    font-weight: 400;
+}
+
+
 .main {
     margin: auto;
 }
@@ -83,8 +90,7 @@ body {
     margin: auto;
 }
 
-.design-container {
-    
+.design-container {    
     display: flex;
     flex-direction: column;
 }
@@ -103,14 +109,14 @@ body {
     font-weight: 400;
 }
 
-.design-content-container {
+.content-container {
     display: flex;
     flex-direction: row;
     width: 800px;
     height: 450px;
 }
 
-.design-content-column-container {
+.content-column-container {
     display: flex;
     flex-direction: column;
     width: 50%;
@@ -122,37 +128,37 @@ body {
     padding: 20px;
 }
 
-.design-content-column-title {
+.content-column-title {
     font-size: 30px;
     font-weight: 600;
 }
 
-.design-content-column-subtitle {
+.content-column-subtitle {
     font-size: 16px;
     font-weight: 400;
     margin-top: 20px;
     line-height: 1.6;
 }
 
-.design-content-column-radio-button-list-item {  
+.content-column-radio-button-list-item {  
     margin-top: 6px;
     margin-bottom: 6px;
 }
 
-.design-content-column-radio-button-label {
+.content-column-radio-button-label {
     margin-top: -20px;
     display: block;
     margin-left: 25px;
-    font-weight: 500;
+    font-weight: 400;
 }
 
-.design-content-column-radio-button-sublabel {    
+.content-column-radio-button-sublabel {    
     margin-left: 25px;
     font-weight: 300;
 }
 
 
-.design-content-column-button-container {
+.content-column-button-container {
     position: absolute;    
     bottom: 24px;
     display: flex;
@@ -161,7 +167,7 @@ body {
     margin-left: -20px;
 }
 
-.design-content-column-button {
+.content-column-button {
     margin-left: auto;
     margin-right: auto;
     button {
@@ -174,7 +180,7 @@ body {
     }    
 }
 
-.design-content-column-invoice-container {
+.content-column-invoice-container {
     display: flex;
     flex-direction: column;
     border-radius: 10px;
@@ -184,49 +190,49 @@ body {
     margin-top: 25px;
 }
 
-.design-content-column-invoice-preview-container {
+.content-column-invoice-preview-container {
     display: flex;
     flex-direction: row;
 }
 
-.design-content-column-invoice-preview-column {
+.content-column-invoice-preview-column {
     display: flex;
     flex-direction: column;
     margin: 3px;
 }
 
-.design-content-column-invoice-preview-column-title {
+.content-column-invoice-preview-column-title {
     font-size: 16px;
     font-weight: 500;
 }
-.design-content-column-invoice-preview-column-subtitle {
+.content-column-invoice-preview-column-subtitle {
     font-size: 14px;
     font-weight: 400;
 }
-.design-content-column-invoice-preview-column-candle-type {
+.content-column-invoice-preview-column-candle-type {
     font-size: 14px;
     font-weight: 300;
 }
 
-.design-content-column-invoice-amount-container {    
+.content-column-invoice-amount-container {    
     display: flex;
     flex-direction: column;
     margin-top: 10px;
 }
 
-.design-content-column-invoice-amount-line-item {
+.content-column-invoice-amount-line-item {
     display: flex;
     flex-direction: row;
     height: 30px;
 }
 
-.design-content-column-invoice-amount-line-item-title {
+.content-column-invoice-amount-line-item-title {
     position: absolute;
     left: 30px;
     font-weight: 600;
 }
 
-.design-content-column-invoice-amount-line-item-amount {
+.content-column-invoice-amount-line-item-amount {
     position: absolute;
     right: 30px;
     font-weight: 600;
@@ -245,7 +251,7 @@ textarea:focus {
     border-color: rgb(127,127,127,0.4)
 }
 
-.design-content-column-textarea {
+.content-column-textarea {
     textarea {
         height: 40px;
         width: 100%;
@@ -329,4 +335,96 @@ hr {
 
 #name-textarea{
     width: 100px;
+}
+
+.sign-up-container {    
+    display: flex;
+    flex-direction: column;
+}
+
+.sign-up-content-container {
+    height: auto;
+}
+
+.sign-up-title-container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sign-up-title-text {
+    margin: auto;
+    font-size: 24px;
+    font-weight: 400;
+}
+
+.labeled-textbox-container {
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    input {
+        height: 25px;
+        border-radius: 5px;
+        text-align: left;
+        border-width: 1px;
+        border-color: rgb(127,127,127,0.4);
+        resize: none;
+        font-family: "Montserrat", sans-serif;
+    }
+    input:focus {            
+        outline: none !important;
+        border-color: rgb(127,127,127,0.4)
+    }
+}
+
+.labeled-textbox-label {
+    margin-left: 15px;
+    font-size: 12px;
+}
+
+.sign-up-checkbox-label {
+    font-size: 14px;
+}
+
+.card-details-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.card-details-expiry-date {
+    width: 60%;
+}
+
+.card-details-cvv {
+    width: 38%;
+    margin-left: 6px;
+}
+
+.billing-address-subtitle-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.sign-up-button-container {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+}
+
+.sign-up-button {
+    margin: auto;
+    width: 150px;
+    height: 50px;
+    border-radius: 15px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.sign-up-error-container {
+    text-align: center;
+    margin-top: 10px;
+    color: red;
 }
