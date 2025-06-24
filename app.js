@@ -1,6 +1,7 @@
 const express = require("express");
 var path = require("path");
 const home = require("./pages/home");
+const login = require("./pages/login");
 const signUp = require("./pages/signUp");
 const design = require("./pages/design");
 
@@ -27,6 +28,10 @@ app.get("/", async (req, res) => {
 
 app.get("/sign-up", async (req, res) => {
   await getPublicPage(req, res, signUp);
+});
+
+app.get("/login", async (req, res) => {
+  await getPublicPage(req, res, login);
 });
 
 app.get("/design", async (req, res) => {

@@ -1,0 +1,35 @@
+<div class="login-container">
+    <div class="login-title-container">
+        <div class="login-title-text">Login</div>
+    </div>
+    <div class="content-container">
+        <div class="content-column-container login-content-container">
+            <div class="labeled-textbox-container">
+                <div class="labeled-textbox-label">
+                    Email
+                </div>
+                <input class="labeled-textbox-input" id="email"/>
+            </div>
+            <div class="labeled-textbox-container">
+                <div class="labeled-textbox-label">
+                    Password
+                </div>
+                <input class="labeled-textbox-input" type="password" id="password"/>
+            </div>
+            <div class="login-button-container">
+                <div class="content-column-button">
+                    <button onclick="handleLogin()">Login</button>
+                </div>                
+            </div>
+            <div class="login-forgot-password-container">
+                <a class="login-forgot-password-link" href="/forgot-password">Forgot Password</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const handleLogin = function() {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById("password").value;        
+    }
+</script>
