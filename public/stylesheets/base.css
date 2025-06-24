@@ -426,7 +426,7 @@ hr {
     font-size: 14px;
 }
 
-.card-details-container{
+.address-details-container{
     display: flex;
     flex-direction: row;
 }
@@ -435,7 +435,7 @@ hr {
     width: 60%;
 }
 
-.card-details-cvv {
+.zip-code-textbox-container {
     width: 38%;
     margin-left: 6px;
 }

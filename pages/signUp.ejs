@@ -40,14 +40,14 @@
                 </div>
                 <input class="labeled-textbox-input" id="shipping-city"/>
             </div>  
-            <div class="card-details-container">
+            <div class="address-details-container">
                 <div class="labeled-textbox-container">
                     <div class="labeled-textbox-label">
                         State
                     </div>
                     <input class="labeled-textbox-input" id="shipping-state"/>
                 </div>      
-                <div class="labeled-textbox-container card-details-cvv">
+                <div class="labeled-textbox-container zip-code-textbox-container">
                     <div class="labeled-textbox-label">
                         Zip
                     </div>
@@ -65,19 +65,11 @@
                 </div>
                 <input class="labeled-textbox-input" id="card-number"/>
             </div>
-            <div class="card-details-container">
-                <div class="labeled-textbox-container card-details-expiry-date">
-                    <div class="labeled-textbox-label">
-                        Expiry Date (MMYY)
-                    </div>
-                    <input class="labeled-textbox-input" id="expiry-date"/>
-                </div>            
-                <div class="labeled-textbox-container card-details-cvv">
-                    <div class="labeled-textbox-label">
-                        CVV
-                    </div>
-                    <input class="labeled-textbox-input" id="cvv"/>
+            <div class="labeled-textbox-container">
+                <div class="labeled-textbox-label">
+                    Expiry Date (MMYY)
                 </div>
+                <input class="labeled-textbox-input" id="expiry-date"/>
             </div>
             <div class="labeled-textbox-container">
                 <div class="labeled-textbox-label">
@@ -111,14 +103,14 @@
                 </div>
                 <input class="labeled-textbox-input" id="billing-city"/>
             </div>  
-            <div class="card-details-container">
+            <div class="address-details-container">
                 <div class="labeled-textbox-container">
                     <div class="labeled-textbox-label">
                         State
                     </div>
                     <input class="labeled-textbox-input" id="billing-state"/>
                 </div>      
-                <div class="labeled-textbox-container card-details-cvv">
+                <div class="labeled-textbox-container zip-code-textbox-container">
                     <div class="labeled-textbox-label">
                         Zip
                     </div>
@@ -160,7 +152,6 @@
 
     const cardNumberTextBox = document.getElementById('card-number');
     const expiryDateTextBox = document.getElementById('expiry-date');
-    const cvvTextBox = document.getElementById('cvv');
     const cardNameTextBox = document.getElementById('card-name');
 
     const shippingStreetTextBox = document.getElementById('shipping-street');
@@ -206,7 +197,7 @@
 
     expiryDateTextBox.addEventListener("keydown", (event) => {
         if (event.key === "Tab") {
-            cvvTextBox.focus();
+            cardNameTextBox.focus();
             event.preventDefault();
         }
         if (expiryDateTextBox.value.length > 6 && event.key !== "Backspace" && event.key !== "Delete") {
@@ -229,21 +220,6 @@
                     expiryDateTextBox.value += " / ";
                 }
             }
-        }
-    });
-
-    cvvTextBox.addEventListener('keydown', (event) => {
-        if (event.key === "Tab") {
-            cardNameTextBox.focus();
-            event.preventDefault();
-        }
-        if (cvvTextBox.value.length > 2 && event.key !== "Backspace" && event.key !== "Delete") {
-            event.preventDefault()
-            return false;
-        }
-        if (!allowedNumValues.includes(event.key) && event.key !== "Backspace" && event.key !== "Delete") {
-            event.preventDefault();
-            return false;
         }
     });
 
@@ -400,13 +376,6 @@
             setFieldError(expiryDateTextBox)            
         } else {
             setFieldOk(expiryDateTextBox)
-        }
-
-        if (cvvTextBox.value.length !== 3) {
-            errors.push("invalid card cvv");
-            setFieldError(cvvTextBox);            
-        } else {
-            setFieldOk(cvvTextBox);
         }
 
         if (cardNameTextBox.value.length === 0) {
