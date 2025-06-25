@@ -168,363 +168,415 @@
     </div>
 </div>
 <script>
-    const emailTextBox = document.getElementById('email');
-    const password1TextBox = document.getElementById('password-1');
-    const password2TextBox = document.getElementById('password-2');
+const emailTextBox = document.getElementById("email");
+const password1TextBox = document.getElementById("password-1");
+const password2TextBox = document.getElementById("password-2");
 
-    const cardNumberTextBox = document.getElementById('card-number');
-    const expiryDateTextBox = document.getElementById('expiry-date');
-    const cardNameTextBox = document.getElementById('card-name');
+const cardNumberTextBox = document.getElementById("card-number");
+const expiryDateTextBox = document.getElementById("expiry-date");
+const cardNameTextBox = document.getElementById("card-name");
 
-    const shippingStreetTextBox = document.getElementById('shipping-street');
-    const shippingUnitTextBox = document.getElementById("shipping-unit");
-    const shippingCityTextBox = document.getElementById('shipping-city');
-    const shippingStateTextBox = document.getElementById('shipping-state');
-    const shippingZipTextBox = document.getElementById('shipping-zip');
-    const shippingNameTextBox = document.getElementById('shipping-name');
+const shippingStreetTextBox = document.getElementById("shipping-street");
+const shippingUnitTextBox = document.getElementById("shipping-unit");
+const shippingCityTextBox = document.getElementById("shipping-city");
+const shippingStateTextBox = document.getElementById("shipping-state");
+const shippingZipTextBox = document.getElementById("shipping-zip");
+const shippingNameTextBox = document.getElementById("shipping-name");
 
-    const billingStreetTextBox = document.getElementById('billing-street');
-    const billingUnitTextBox = document.getElementById("billing-unit");
-    const billingCityTextBox = document.getElementById('billing-city');
-    const billingStateTextBox = document.getElementById('billing-state');
-    const billingZipTextBox = document.getElementById('billing-zip');
+const billingStreetTextBox = document.getElementById("billing-street");
+const billingUnitTextBox = document.getElementById("billing-unit");
+const billingCityTextBox = document.getElementById("billing-city");
+const billingStateTextBox = document.getElementById("billing-state");
+const billingZipTextBox = document.getElementById("billing-zip");
 
-    const billingSameAsShippingCheckBox = document.getElementById("billing-same-as-shipping-checkbox");
+const billingSameAsShippingCheckBox = document.getElementById(
+  "billing-same-as-shipping-checkbox"
+);
 
-    const termsCheckBox = document.getElementById("terms-checkbox");
-    const privacyCheckBox = document.getElementById("privacy-checkbox");
+const termsCheckBox = document.getElementById("terms-checkbox");
+const privacyCheckBox = document.getElementById("privacy-checkbox");
 
-    const allowedNumValues = '0123456789';
-    cardNumberTextBox.addEventListener("keydown", (event) => {        
-        if (event.key === "Tab") {
-            expiryDateTextBox.focus();
-            event.preventDefault();
-        }
-        if (cardNumberTextBox.value.length > 18 && event.key !== "Backspace" && event.key !== "Delete") {
-            event.preventDefault()
-            return false;
-        }
-        if (!allowedNumValues.includes(event.key) && event.key !== "Backspace" && event.key !== "Delete") {
-            event.preventDefault();
-            return false;
-        }
-        if (cardNumberTextBox.value.length < 18 && event.key !== "Backspace" && event.key !== "Delete") {
-            const rawCardNumber = cardNumberTextBox.value.replaceAll(" ", "");
-            cardNumberTextBox.value = '';
-            for (let i = 0; i < rawCardNumber.length; i++) {            
-                cardNumberTextBox.value += rawCardNumber[i];
-                if ((i+5) % 4 === 0 && rawCardNumber.length >=4 ) {
-                    cardNumberTextBox.value += " ";
-                }
-            }
-        }
-    });
-
-    expiryDateTextBox.addEventListener("keydown", (event) => {
-        if (event.key === "Tab") {
-            cardNameTextBox.focus();
-            event.preventDefault();
-        }
-        if (expiryDateTextBox.value.length > 6 && event.key !== "Backspace" && event.key !== "Delete") {
-            event.preventDefault()
-            return false;
-        }
-        if (!allowedNumValues.includes(event.key) && event.key !== "Backspace" && event.key !== "Delete") {
-            event.preventDefault();
-            return false;
-        }
-        if (expiryDateTextBox.value.length === 0 && event.key !== "1" && event.key !== "0") {
-            expiryDateTextBox.value = "0";
-        }
-        else if (expiryDateTextBox.value.length < 4 && event.key !== "Backspace" && event.key !== "Delete" && event.key !== "/") {
-            const rawDate = expiryDateTextBox.value.replaceAll(" / ");
-            expiryDateTextBox.value = '';
-            for (let i = 0; i < rawDate.length; i++) {
-                expiryDateTextBox.value += rawDate[i];
-                if ((i + 3) % 2 === 0 && rawDate.length >= 2) {
-                    expiryDateTextBox.value += " / ";
-                }
-            }
-        }
-    });
-
-    shippingZipTextBox.addEventListener('keydown', (event) => {
-        if (event.key === "Tab") {
-            shippingNameTextBox.focus();
-            event.preventDefault();
-        }
-        if (shippingZipTextBox.value.length > 4 && event.key !== "Backspace" && event.key !== "Delete") {
-            event.preventDefault()
-            return false;
-        }
-        if (!allowedNumValues.includes(event.key) && event.key !== "Backspace" && event.key !== "Delete") {
-            event.preventDefault();
-            return false;
-        }
-    });
-
-    shippingNameTextBox.addEventListener('keydown', (event) => {
-        if (event.key === "Tab") {
-            cardNumberTextBox.focus();
-            event.preventDefault();
-        }        
-    })
-
-    shippingUnitTextBox.addEventListener('keyup', (event) => {
-        if (billingSameAsShippingCheckBox.checked) {            
-            billingUnitTextBox.value = shippingUnitTextBox.value;
-        }
-    })
-
-    shippingStreetTextBox.addEventListener('keyup', (event) => {
-        if (billingSameAsShippingCheckBox.checked) {            
-            billingStreetTextBox.value = shippingStreetTextBox.value;
-        }
-    })
-
-    shippingCityTextBox.addEventListener('keyup', (event) => {
-        if (billingSameAsShippingCheckBox.checked) {            
-            billingCityTextBox.value = shippingCityTextBox.value;
-        }
-    })
-
-    shippingStateTextBox.addEventListener('keyup', (event) => {
-        if (billingSameAsShippingCheckBox.checked) {            
-            billingStateTextBox.value = shippingStateTextBox.value;
-        }
-    })
-
-    shippingZipTextBox.addEventListener('keyup', (event) => {        
-        if (billingSameAsShippingCheckBox.checked) {            
-            billingZipTextBox.value = shippingZipTextBox.value;
-        }
-    })
-
-    billingZipTextBox.addEventListener('keydown', (event) => {
-        if (event.key === "Tab") {
-            termsCheckBox.focus();
-            event.preventDefault();
-        }
-        if (billingZipTextBox.value.length > 4 && event.key !== "Backspace" && event.key !== "Delete") {
-            event.preventDefault()
-            return false;
-        }
-        if (!allowedNumValues.includes(event.key) && event.key !== "Backspace" && event.key !== "Delete") {
-            event.preventDefault();
-            return false;
-        }
-    });
-    
-    cardNameTextBox.addEventListener("keydown", (event) => {  
-        if (event.key === "Tab") {
-            billingAddressTextBox.focus();
-            event.preventDefault();
-        }
-    });
-
-     billingSameAsShippingCheckBox.addEventListener("change", (event) => {
-        if (billingSameAsShippingCheckBox.checked) {
-            billingStreetTextBox.value = shippingStreetTextBox.value;
-            billingStreetTextBox.disabled = true;
-            billingUnitTextBox.value = shippingUnitTextBox.value;
-            billingUnitTextBox.disabled = true;
-            billingCityTextBox.value = shippingCityTextBox.value;
-            billingCityTextBox.disabled = true;
-            billingStateTextBox.value = shippingStateTextBox.value;
-            billingStateTextBox.disabled = true;
-            billingZipTextBox.value = shippingZipTextBox.value;
-            billingZipTextBox.disabled = true;
-        } else {            
-            billingStreetTextBox.disabled = false;
-            billingUnitTextBox.disabled = false;
-            billingCityTextBox.disabled = false;
-            billingStateTextBox.disabled = false;
-            billingZipTextBox.disabled = false;
-        }
-    });
-
-    const setFieldError = function(fieldLabel) {
-        fieldLabel.style.borderColor = "red";
-        fieldLabel.style.backgroundColor = "mistyrose";   
+const allowedNumValues = "0123456789";
+cardNumberTextBox.addEventListener("keydown", (event) => {
+  if (event.key === "Tab") {
+    expiryDateTextBox.focus();
+    event.preventDefault();
+  }
+  if (
+    cardNumberTextBox.value.length > 18 &&
+    event.key !== "Backspace" &&
+    event.key !== "Delete"
+  ) {
+    event.preventDefault();
+    return false;
+  }
+  if (
+    !allowedNumValues.includes(event.key) &&
+    event.key !== "Backspace" &&
+    event.key !== "Delete"
+  ) {
+    event.preventDefault();
+    return false;
+  }
+  if (
+    cardNumberTextBox.value.length < 18 &&
+    event.key !== "Backspace" &&
+    event.key !== "Delete"
+  ) {
+    const rawCardNumber = cardNumberTextBox.value.replaceAll(" ", "");
+    cardNumberTextBox.value = "";
+    for (let i = 0; i < rawCardNumber.length; i++) {
+      cardNumberTextBox.value += rawCardNumber[i];
+      if ((i + 5) % 4 === 0 && rawCardNumber.length >= 4) {
+        cardNumberTextBox.value += " ";
+      }
     }
+  }
+});
 
-    const setFieldOk = function(fieldLabel) {
-        fieldLabel.style.borderColor = "rgb(127,127,127,0.4)";
-        fieldLabel.style.backgroundColor = "white";  
+expiryDateTextBox.addEventListener("keydown", (event) => {
+  if (event.key === "Tab") {
+    cardNameTextBox.focus();
+    event.preventDefault();
+  }
+  if (
+    expiryDateTextBox.value.length > 6 &&
+    event.key !== "Backspace" &&
+    event.key !== "Delete"
+  ) {
+    event.preventDefault();
+    return false;
+  }
+  if (
+    !allowedNumValues.includes(event.key) &&
+    event.key !== "Backspace" &&
+    event.key !== "Delete"
+  ) {
+    event.preventDefault();
+    return false;
+  }
+  if (
+    expiryDateTextBox.value.length === 0 &&
+    event.key !== "1" &&
+    event.key !== "0"
+  ) {
+    expiryDateTextBox.value = "0";
+  } else if (
+    expiryDateTextBox.value.length < 4 &&
+    event.key !== "Backspace" &&
+    event.key !== "Delete" &&
+    event.key !== "/"
+  ) {
+    const rawDate = expiryDateTextBox.value.replaceAll(" / ");
+    expiryDateTextBox.value = "";
+    for (let i = 0; i < rawDate.length; i++) {
+      expiryDateTextBox.value += rawDate[i];
+      if ((i + 3) % 2 === 0 && rawDate.length >= 2) {
+        expiryDateTextBox.value += " / ";
+      }
     }
+  }
+});
 
-    const handleSignUp = async function() {
-        var errors = [];
-        if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailTextBox.value)) {
-            setFieldError(emailTextBox);
-            errors.push("invalid email address");            
-        } else {
-            setFieldOk(emailTextBox);
-        }
+shippingZipTextBox.addEventListener("keydown", (event) => {
+  if (event.key === "Tab") {
+    shippingNameTextBox.focus();
+    event.preventDefault();
+  }
+  if (
+    shippingZipTextBox.value.length > 4 &&
+    event.key !== "Backspace" &&
+    event.key !== "Delete"
+  ) {
+    event.preventDefault();
+    return false;
+  }
+  if (
+    !allowedNumValues.includes(event.key) &&
+    event.key !== "Backspace" &&
+    event.key !== "Delete"
+  ) {
+    event.preventDefault();
+    return false;
+  }
+});
 
-        if (password1TextBox.value !== password2TextBox.value) {
-            setFieldError(password1TextBox);
-            setFieldError(password2TextBox);
-            errors.push("passwords do not match");
-            
-        } else if (password1TextBox.value.length < 8) {
-            setFieldError(password1TextBox);
-            setFieldError(password2TextBox);
-            errors.push("password too short");
-        } else {
-            setFieldOk(password1TextBox);
-            setFieldOk(password2TextBox);
-        }
-        
+shippingNameTextBox.addEventListener("keydown", (event) => {
+  if (event.key === "Tab") {
+    cardNumberTextBox.focus();
+    event.preventDefault();
+  }
+});
 
-        if (shippingStreetTextBox.value.length === 0) {
-            setFieldError(shippingStreetTextBox);
-            errors.push("shipping street address not set");
-        } else {
-            setFieldOk(shippingStreetTextBox);
-        }
+shippingUnitTextBox.addEventListener("keyup", (event) => {
+  if (billingSameAsShippingCheckBox.checked) {
+    billingUnitTextBox.value = shippingUnitTextBox.value;
+  }
+});
 
-        if (shippingCityTextBox.value.length === 0) {
-            setFieldError(shippingCityTextBox);
-            errors.push("shipping city not set");
-        } else {
-            setFieldOk(shippingCityTextBox);
-        }
+shippingStreetTextBox.addEventListener("keyup", (event) => {
+  if (billingSameAsShippingCheckBox.checked) {
+    billingStreetTextBox.value = shippingStreetTextBox.value;
+  }
+});
 
-        if (shippingStateTextBox.value.length < 2) {
-            errors.push("shipping state not set");
-            setFieldError(shippingStateTextBox);            
-        } else {
-            setFieldOk(shippingStateTextBox);
-        }        
+shippingCityTextBox.addEventListener("keyup", (event) => {
+  if (billingSameAsShippingCheckBox.checked) {
+    billingCityTextBox.value = shippingCityTextBox.value;
+  }
+});
 
-        if (shippingZipTextBox.value.length !== 5) {            
-            errors.push("invalid shipping zip code");
-            setFieldError(shippingZipTextBox);            
-        } else {
-            setFieldOk(shippingZipTextBox);
-        }
+shippingStateTextBox.addEventListener("keyup", (event) => {
+  if (billingSameAsShippingCheckBox.checked) {
+    billingStateTextBox.value = shippingStateTextBox.value;
+  }
+});
 
-        if (shippingNameTextBox.value.length === 0) {            
-            errors.push("invalid shipping recipient name");
-            setFieldError(shippingNameTextBox);            
-        } else {
-            setFieldOk(shippingNameTextBox);
-        }
+shippingZipTextBox.addEventListener("keyup", (event) => {
+  if (billingSameAsShippingCheckBox.checked) {
+    billingZipTextBox.value = shippingZipTextBox.value;
+  }
+});
 
-        if (cardNumberTextBox.value.length !== 19) {
-            errors.push("invalid card number");
-            setFieldError(cardNumberTextBox)            
-        } else {
-            setFieldOk(cardNumberTextBox)
-        }
+billingZipTextBox.addEventListener("keydown", (event) => {
+  if (event.key === "Tab") {
+    termsCheckBox.focus();
+    event.preventDefault();
+  }
+  if (
+    billingZipTextBox.value.length > 4 &&
+    event.key !== "Backspace" &&
+    event.key !== "Delete"
+  ) {
+    event.preventDefault();
+    return false;
+  }
+  if (
+    !allowedNumValues.includes(event.key) &&
+    event.key !== "Backspace" &&
+    event.key !== "Delete"
+  ) {
+    event.preventDefault();
+    return false;
+  }
+});
 
-        if (expiryDateTextBox.value.length !== 7) {
-            errors.push("invalid card expiry date");
-            setFieldError(expiryDateTextBox)            
-        } else {
-            setFieldOk(expiryDateTextBox)
-        }
+cardNameTextBox.addEventListener("keydown", (event) => {
+  if (event.key === "Tab") {
+    billingAddressTextBox.focus();
+    event.preventDefault();
+  }
+});
 
-        if (cardNameTextBox.value.length === 0) {
-            errors.push("invalid name on card");
-            setFieldError(cardNameTextBox);            
-        } else {
-            setFieldOk(cardNameTextBox)
-        }
+billingSameAsShippingCheckBox.addEventListener("change", (event) => {
+  if (billingSameAsShippingCheckBox.checked) {
+    billingStreetTextBox.value = shippingStreetTextBox.value;
+    billingStreetTextBox.disabled = true;
+    billingUnitTextBox.value = shippingUnitTextBox.value;
+    billingUnitTextBox.disabled = true;
+    billingCityTextBox.value = shippingCityTextBox.value;
+    billingCityTextBox.disabled = true;
+    billingStateTextBox.value = shippingStateTextBox.value;
+    billingStateTextBox.disabled = true;
+    billingZipTextBox.value = shippingZipTextBox.value;
+    billingZipTextBox.disabled = true;
+  } else {
+    billingStreetTextBox.disabled = false;
+    billingUnitTextBox.disabled = false;
+    billingCityTextBox.disabled = false;
+    billingStateTextBox.disabled = false;
+    billingZipTextBox.disabled = false;
+  }
+});
 
-        if (billingStreetTextBox.value.length === 0) {
-            errors.push("invalid billing street address");
-            setFieldError(billingStreetTextBox);            
-        } else {
-            setFieldOk(billingStreetTextBox);
-        }
+const setFieldError = function (fieldLabel) {
+  fieldLabel.style.borderColor = "red";
+  fieldLabel.style.backgroundColor = "mistyrose";
+};
 
-        if (billingCityTextBox.value.length === 0) {
-            errors.push("invalid billing city");
-            setFieldError(billingCityTextBox);            
-        } else {
-            setFieldOk(billingCityTextBox);
-        }
+const setFieldOk = function (fieldLabel) {
+  fieldLabel.style.borderColor = "rgb(127,127,127,0.4)";
+  fieldLabel.style.backgroundColor = "white";
+};
 
-        if (billingStateTextBox.value.length === 0) {
-            errors.push("invalid billing state");
-            setFieldError(billingStateTextBox);            
-        } else {
-            setFieldOk(billingStateTextBox);
-        }
+const handleSignUp = async function () {
+  var errors = [];
+  if (
+    !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailTextBox.value)
+  ) {
+    setFieldError(emailTextBox);
+    errors.push("invalid email address");
+  } else {
+    setFieldOk(emailTextBox);
+  }
 
-        if (billingZipTextBox.value.length !== 5) {            
-            errors.push("invalid billing zip");
-            setFieldError(billingZipTextBox);            
-        } else {
-            setFieldOk(billingZipTextBox);
-        }
+  if (password1TextBox.value !== password2TextBox.value) {
+    setFieldError(password1TextBox);
+    setFieldError(password2TextBox);
+    errors.push("passwords do not match");
+  } else if (password1TextBox.value.length < 8) {
+    setFieldError(password1TextBox);
+    setFieldError(password2TextBox);
+    errors.push("password too short");
+  } else {
+    setFieldOk(password1TextBox);
+    setFieldOk(password2TextBox);
+  }
 
-        if (!termsCheckBox.checked) {
-            const termsCheckBoxLabel = document.getElementById('terms-checkbox-label');
-            termsCheckBoxLabel.style.color = "red";            
-            errors.push("You must agree to the Terms and Conditions.");            
-        } else {
-            const termsCheckBoxLabel = document.getElementById('terms-checkbox-label');
-            termsCheckBoxLabel.style.color = "black";
-        }
+  if (shippingStreetTextBox.value.length === 0) {
+    setFieldError(shippingStreetTextBox);
+    errors.push("shipping street address not set");
+  } else {
+    setFieldOk(shippingStreetTextBox);
+  }
 
-        if (!privacyCheckBox.checked) {
-            const privacyCheckBoxLabel = document.getElementById('privacy-checkbox-label');
-            errors.push("You must agree to the Privacy Policy.");     
-            privacyCheckBoxLabel.style.color = "red";            
-        } else {
-            const privacyCheckBoxLabel = document.getElementById('privacy-checkbox-label');
-            privacyCheckBoxLabel.style.color = "black";
-        }
-        const signUpErrorContainer = document.getElementById("sign-up-error-container");
-        signUpErrorContainer.innerHTML = "";
-        for(let i = 0; i < errors.length; i++) {
-            signUpErrorContainer.innerHTML += errors[i] + "<br/>";
-        }
+  if (shippingCityTextBox.value.length === 0) {
+    setFieldError(shippingCityTextBox);
+    errors.push("shipping city not set");
+  } else {
+    setFieldOk(shippingCityTextBox);
+  }
 
-        if (errors.length > 0) {
-            return;
-        }
+  if (shippingStateTextBox.value.length < 2) {
+    errors.push("shipping state not set");
+    setFieldError(shippingStateTextBox);
+  } else {
+    setFieldOk(shippingStateTextBox);
+  }
 
-        const body = JSON.stringify({
-            user: {
-                email_address: emailTextBox.value,
-                password: password1TextBox.value,
-            },
-            bankCard: {
-                cardNumber: cardNumberTextBox.value,
-                expiryDate: expiryDateTextBox.value,
-                nameOnCard: cardNameTextBox.value,
-                street: billingStreetTextBox.value,
-                unit: billingUnitTextBox.value,
-                city: billingCityTextBox.value,
-                state: billingStateTextBox.value,
-                postal_code: billingZipTextBox.value,
-            },
-            shippingAddress: {
-                recipient: shippingNameTextBox.value,
-                street: shippingStreetTextBox.value,
-                unit: shippingUnitTextBox.value,
-                city: shippingCityTextBox.value,
-                state: shippingStateTextBox.value,
-                postal_code: shippingZipTextBox.value
-            }
-        });
+  if (shippingZipTextBox.value.length !== 5) {
+    errors.push("invalid shipping zip code");
+    setFieldError(shippingZipTextBox);
+  } else {
+    setFieldOk(shippingZipTextBox);
+  }
 
-        const url = "<%= config.BASE_URL %>/api/sign-up";
-        const res = await fetch(url, {            
-            headers: { "Content-Type": "application/json" },  
-            method: "POST",
-            body: body
-        });
-        if (res.ok) {
-            const json = await res.json();
-            window.location.href = json.nextStep;
-        } else {
-            const json = await res.json();
-            signUpErrorContainer.innerHTML = json.message;
-        }
-    }
+  if (shippingNameTextBox.value.length === 0) {
+    errors.push("invalid shipping recipient name");
+    setFieldError(shippingNameTextBox);
+  } else {
+    setFieldOk(shippingNameTextBox);
+  }
+
+  if (cardNumberTextBox.value.length !== 19) {
+    errors.push("invalid card number");
+    setFieldError(cardNumberTextBox);
+  } else {
+    setFieldOk(cardNumberTextBox);
+  }
+
+  if (expiryDateTextBox.value.length !== 7) {
+    errors.push("invalid card expiry date");
+    setFieldError(expiryDateTextBox);
+  } else {
+    setFieldOk(expiryDateTextBox);
+  }
+
+  if (cardNameTextBox.value.length === 0) {
+    errors.push("invalid name on card");
+    setFieldError(cardNameTextBox);
+  } else {
+    setFieldOk(cardNameTextBox);
+  }
+
+  if (billingStreetTextBox.value.length === 0) {
+    errors.push("invalid billing street address");
+    setFieldError(billingStreetTextBox);
+  } else {
+    setFieldOk(billingStreetTextBox);
+  }
+
+  if (billingCityTextBox.value.length === 0) {
+    errors.push("invalid billing city");
+    setFieldError(billingCityTextBox);
+  } else {
+    setFieldOk(billingCityTextBox);
+  }
+
+  if (billingStateTextBox.value.length === 0) {
+    errors.push("invalid billing state");
+    setFieldError(billingStateTextBox);
+  } else {
+    setFieldOk(billingStateTextBox);
+  }
+
+  if (billingZipTextBox.value.length !== 5) {
+    errors.push("invalid billing zip");
+    setFieldError(billingZipTextBox);
+  } else {
+    setFieldOk(billingZipTextBox);
+  }
+
+  if (!termsCheckBox.checked) {
+    const termsCheckBoxLabel = document.getElementById("terms-checkbox-label");
+    termsCheckBoxLabel.style.color = "red";
+    errors.push("You must agree to the Terms and Conditions.");
+  } else {
+    const termsCheckBoxLabel = document.getElementById("terms-checkbox-label");
+    termsCheckBoxLabel.style.color = "black";
+  }
+
+  if (!privacyCheckBox.checked) {
+    const privacyCheckBoxLabel = document.getElementById(
+      "privacy-checkbox-label"
+    );
+    errors.push("You must agree to the Privacy Policy.");
+    privacyCheckBoxLabel.style.color = "red";
+  } else {
+    const privacyCheckBoxLabel = document.getElementById(
+      "privacy-checkbox-label"
+    );
+    privacyCheckBoxLabel.style.color = "black";
+  }
+  const signUpErrorContainer = document.getElementById(
+    "sign-up-error-container"
+  );
+  signUpErrorContainer.innerHTML = "";
+  for (let i = 0; i < errors.length; i++) {
+    signUpErrorContainer.innerHTML += errors[i] + "<br/>";
+  }
+
+  if (errors.length > 0) {
+    return;
+  }
+
+  const body = JSON.stringify({
+    user: {
+      email_address: emailTextBox.value,
+      password: password1TextBox.value,
+    },
+    bankCard: {
+      cardNumber: cardNumberTextBox.value,
+      expiryDate: expiryDateTextBox.value,
+      nameOnCard: cardNameTextBox.value,
+      street: billingStreetTextBox.value,
+      unit: billingUnitTextBox.value,
+      city: billingCityTextBox.value,
+      state: billingStateTextBox.value,
+      postal_code: billingZipTextBox.value,
+    },
+    shippingAddress: {
+      recipient: shippingNameTextBox.value,
+      street: shippingStreetTextBox.value,
+      unit: shippingUnitTextBox.value,
+      city: shippingCityTextBox.value,
+      state: shippingStateTextBox.value,
+      postal_code: shippingZipTextBox.value,
+    },
+  });
+
+  const url = "<%= config.BASE_URL %>/api/sign-up";
+  const res = await fetch(url, {
+    headers: { "Content-Type": "application/json" },
+    method: "POST",
+    body: body,
+  });
+  if (res.ok) {
+    const json = await res.json();
+    window.location.href = json.nextStep;
+  } else {
+    const json = await res.json();
+    signUpErrorContainer.innerHTML = json.message;
+  }
+};
 </script>

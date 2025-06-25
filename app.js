@@ -8,6 +8,8 @@ const design = require("./pages/design");
 
 const getPublicPage = require("./lib/getPublicPage");
 const imageRouter = require("./routers/image");
+const loginRouter = require("./routers/login");
+const logoutRouter = require("./routers/logout");
 const modelRouter = require("./routers/model");
 const signUpRouter = require("./routers/signUp");
 const taskRouter = require("./routers/task");
@@ -23,6 +25,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
 
 app.use("/api/image", imageRouter);
+app.use("/api/login", loginRouter);
+app.use("/api/logout", logoutRouter);
 app.use("/api/model", modelRouter);
 app.use("/api/sign-up", signUpRouter);
 app.use("/api/task", taskRouter);

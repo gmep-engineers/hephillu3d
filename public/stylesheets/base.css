@@ -1,7 +1,6 @@
 @import url("colors.css");
 
 body {
-    width: 100vw;
     font-family: "Montserrat", sans-serif;
     color: var(--font-color-1);
     background-color: var(--bg-color-1);
@@ -37,6 +36,9 @@ a {
 .home-container {
     display: flex;
     flex-direction: column;
+    @media screen and (max-width: 992px) {
+        margin-top: 120px;
+    }
 }
 
 .home-title-container {
@@ -548,4 +550,14 @@ hr {
 .login-forgot-password-link {
     margin: auto;
     font-size: 12px;
+}
+
+.login-error-container {
+    text-align: center;
+    margin-top: 10px;
+    color: red;
+}
+
+.login-content-container {
+    height: auto;
 }

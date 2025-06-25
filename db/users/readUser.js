@@ -2,10 +2,10 @@ const readUser = async function (conn, dto) {
   var result = [];
   if (dto.id) {
     const query = `select * from users where email_address = ?`;
-    [result] = conn.query(query, [dto.id]);
+    [result] = await conn.query(query, [dto.id]);
   } else if (dto.email_address) {
     const query = `select * from users where email_address = ?`;
-    [result] = conn.query(query, [dto.email_address]);
+    [result] = await conn.query(query, [dto.email_address]);
   }
   if (result.length > 0) {
     const res = result[0];

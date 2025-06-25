@@ -2,7 +2,7 @@
     <div class="login-title-container">
         <div class="login-title-text">Login</div>
     </div>
-    <div class="content-container">
+    <div class="content-container login-content-container">
         <div class="content-column-container login-content-container">
             <div class="labeled-textbox-container">
                 <div class="labeled-textbox-label">
@@ -26,10 +26,41 @@
             </div>
         </div>
     </div>
+    <div class="login-error-container" id="login-error-container">        
+    </div>
 </div>
 <script>
-    const handleLogin = function() {
+    const emailTextBox = document.getElementById('email');
+    const passwordTextBox = document.getElementById("password");
+    emailTextBox.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+            handleLogin();
+        }
+    });
+    passwordTextBox.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+            handleLogin();
+        }
+    });
+    const handleLogin = async function() {
         const email = document.getElementById('email').value;
-        const password = document.getElementById("password").value;        
+        const password = document.getElementById("password").value; 
+        const body = JSON.stringify({
+            email_address: email,
+            password: password
+        })   
+        const url = "<%= config.BASE_URL %>/api/login";
+        const res = await fetch(url, {
+            headers: { "Content-Type": "application/json" },  
+            method: "POST",
+            body: body
+        })
+        if (res.ok) {
+            window.location.href = '/design';
+        } else {
+            const json = await res.json();
+            const loginErrorContainer = document.getElementById("login-error-container");
+            loginErrorContainer.innerHTML = json.message;
+        }
     }
 </script>

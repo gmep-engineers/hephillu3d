@@ -49,7 +49,6 @@ const signUp = {
       postal_code: dto.bankCard.postal_code,
     });
 
-    console.log(dto.shippingAddress.recipient);
     await createShippingAddress(conn, {
       owner_id: userId,
       recipient: dto.shippingAddress.recipient,

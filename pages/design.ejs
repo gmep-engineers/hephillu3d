@@ -24,14 +24,26 @@
                 (.glb only)
             </div>      
             <div class="content-column-radio-button-list-item">
+                <% if (session) { %>
                 <input
                     type="radio"
                     id="text-option-radio-button"
                     name="upload-option"
                     class="radio"
-                    onclick="showHidePromptInput()"
+                    onclick="showHidePromptInput()"                    
                 />
-                <label for="upload-options" class="content-column-radio-button-label">Or type a description and let our AI create your model!</label>                
+                <label for="upload-options" class="content-column-radio-button-label">Type a description and let our AI create your model!</label>  
+                <% } else { %>
+                <input
+                    type="radio"
+                    id="text-option-radio-button"
+                    name="upload-option"
+                    class="radio"
+                    onclick="showHidePromptInput()"    
+                    disabled                
+                />
+                <label for="upload-options" class="content-column-radio-button-label" style="font-style: italic; color: gray;">(Members only!) Type a description and let our AI create your model!</label>  
+                <% } %>                               
             </div> 
             <!--
             <div class="content-column-uploader" id="file-uploader" style="display: none">
