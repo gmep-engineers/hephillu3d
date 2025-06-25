@@ -11,7 +11,7 @@ const {
 } = require("@aws-sdk/client-s3");
 
 const image = {
-  post: async function (dto) {
+  post: async function (conn, dto) {
     const file = dto.file;
     var s3Image = "";
     const client = new S3Client({
@@ -35,7 +35,7 @@ const image = {
           Body: await readFile("./uploads/" + file.filename),
         });
         try {
-          const response = await client.send(command);
+          await client.send(command);
           s3Image = `https://gmep-meshy-api-images-2025-06-10.s3.us-east-1.amazonaws.com/${file.filename}`;
           await unlink("./uploads/" + file.filename);
         } catch (err) {

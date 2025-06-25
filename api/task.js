@@ -2,7 +2,7 @@ const config = require("../etc/config");
 const axios = require("axios");
 
 const task = {
-  get: async function (dto) {
+  get: async function (conn, dto) {
     const id = dto.id;
     const headers = { Authorization: `Bearer ${config.API_KEY}` };
     try {

@@ -3,13 +3,13 @@ const head = require("../components/head");
 const header = require("../components/header");
 const common = require("../lib/common");
 
-const publicPage = async function (mainHtml) {
+const page = async function (session, mainHtml) {
   const params = common.params;
   params.head = await head();
-  params.header = await header();
+  params.header = await header(session);
   params.main = mainHtml;
   params.footer = await footer();
 
-  return await common.render("templates/publicPage", params);
+  return await common.render("templates/page", params);
 };
-module.exports = publicPage;
+module.exports = page;

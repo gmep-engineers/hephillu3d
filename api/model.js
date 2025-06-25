@@ -9,7 +9,7 @@ const {
 } = require("@aws-sdk/client-s3");
 
 const model = {
-  post: async function (dto) {
+  post: async function (conn, dto) {
     const file = dto.file;
     var s3File = "";
     const client = new S3Client({

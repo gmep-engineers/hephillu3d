@@ -13,8 +13,7 @@ const readSession = async function (conn, dto) {
       id: res.id,
       date_created: res.date_created,
       owner_id: res.owner_id,
-      ipv4_address: res.ipv4_address,
-      ipv6_address: res.ipv6_address,
+      ip_address: res.ip_address,
     };
   }
   return null;

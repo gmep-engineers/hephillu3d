@@ -27,12 +27,20 @@
             </div>
             <div class="content-column-subtitle">
                 Shipping Address              
-            </div>
-            <div class="labeled-textbox-container">
-                <div class="labeled-textbox-label">
-                    Street
+            </div>            
+            <div class="address-details-container">
+                <div class="labeled-textbox-container">
+                    <div class="labeled-textbox-label">
+                        Street Address
+                    </div>
+                    <input class="labeled-textbox-input" id="shipping-street"/>
                 </div>
-                <input class="labeled-textbox-input" id="shipping-street"/>
+                <div class="labeled-textbox-container unit-number-textbox-container">
+                    <div class="labeled-textbox-label">
+                        Unit #
+                    </div>
+                    <input class="labeled-textbox-input" id="shipping-unit"/>
+                </div>
             </div>
             <div class="labeled-textbox-container">
                 <div class="labeled-textbox-label">
@@ -53,7 +61,13 @@
                     </div>
                     <input class="labeled-textbox-input" id="shipping-zip"/>
                 </div>
-            </div>        
+            </div>
+            <div class="labeled-textbox-container">
+                <div class="labeled-textbox-label">
+                    Recipient Name
+                </div>
+                <input class="labeled-textbox-input" id="shipping-name"/>
+            </div>         
         </div>
         <div class="content-column-container">
             <div class="content-column-title">
@@ -90,12 +104,20 @@
                     />
                     <label for="billing-same-as-shipping" class="content-column-radio-button-label sign-up-checkbox-label">same as shipping</label>                
                 </div>  
-            </div>           
-            <div class="labeled-textbox-container">
-                <div class="labeled-textbox-label">
-                    Street
+            </div>          
+            <div class="address-details-container">
+                <div class="labeled-textbox-container">
+                    <div class="labeled-textbox-label">
+                        Street Address
+                    </div>
+                    <input class="labeled-textbox-input" id="billing-street"/>
                 </div>
-                <input class="labeled-textbox-input" id="billing-street"/>
+                <div class="labeled-textbox-container unit-number-textbox-container">
+                    <div class="labeled-textbox-label">
+                        Unit #
+                    </div>
+                    <input class="labeled-textbox-input" id="billing-unit"/>
+                </div>
             </div>
             <div class="labeled-textbox-container">
                 <div class="labeled-textbox-label">
@@ -155,11 +177,14 @@
     const cardNameTextBox = document.getElementById('card-name');
 
     const shippingStreetTextBox = document.getElementById('shipping-street');
+    const shippingUnitTextBox = document.getElementById("shipping-unit");
     const shippingCityTextBox = document.getElementById('shipping-city');
     const shippingStateTextBox = document.getElementById('shipping-state');
     const shippingZipTextBox = document.getElementById('shipping-zip');
+    const shippingNameTextBox = document.getElementById('shipping-name');
 
     const billingStreetTextBox = document.getElementById('billing-street');
+    const billingUnitTextBox = document.getElementById("billing-unit");
     const billingCityTextBox = document.getElementById('billing-city');
     const billingStateTextBox = document.getElementById('billing-state');
     const billingZipTextBox = document.getElementById('billing-zip');
@@ -225,7 +250,7 @@
 
     shippingZipTextBox.addEventListener('keydown', (event) => {
         if (event.key === "Tab") {
-            cardNumberTextBox.focus();
+            shippingNameTextBox.focus();
             event.preventDefault();
         }
         if (shippingZipTextBox.value.length > 4 && event.key !== "Backspace" && event.key !== "Delete") {
@@ -237,6 +262,19 @@
             return false;
         }
     });
+
+    shippingNameTextBox.addEventListener('keydown', (event) => {
+        if (event.key === "Tab") {
+            cardNumberTextBox.focus();
+            event.preventDefault();
+        }        
+    })
+
+    shippingUnitTextBox.addEventListener('keyup', (event) => {
+        if (billingSameAsShippingCheckBox.checked) {            
+            billingUnitTextBox.value = shippingUnitTextBox.value;
+        }
+    })
 
     shippingStreetTextBox.addEventListener('keyup', (event) => {
         if (billingSameAsShippingCheckBox.checked) {            
@@ -288,6 +326,8 @@
         if (billingSameAsShippingCheckBox.checked) {
             billingStreetTextBox.value = shippingStreetTextBox.value;
             billingStreetTextBox.disabled = true;
+            billingUnitTextBox.value = shippingUnitTextBox.value;
+            billingUnitTextBox.disabled = true;
             billingCityTextBox.value = shippingCityTextBox.value;
             billingCityTextBox.disabled = true;
             billingStateTextBox.value = shippingStateTextBox.value;
@@ -296,6 +336,7 @@
             billingZipTextBox.disabled = true;
         } else {            
             billingStreetTextBox.disabled = false;
+            billingUnitTextBox.disabled = false;
             billingCityTextBox.disabled = false;
             billingStateTextBox.disabled = false;
             billingZipTextBox.disabled = false;
@@ -362,6 +403,13 @@
             setFieldError(shippingZipTextBox);            
         } else {
             setFieldOk(shippingZipTextBox);
+        }
+
+        if (shippingNameTextBox.value.length === 0) {            
+            errors.push("invalid shipping recipient name");
+            setFieldError(shippingNameTextBox);            
+        } else {
+            setFieldOk(shippingNameTextBox);
         }
 
         if (cardNumberTextBox.value.length !== 19) {
@@ -435,7 +483,48 @@
         for(let i = 0; i < errors.length; i++) {
             signUpErrorContainer.innerHTML += errors[i] + "<br/>";
         }
+
+        if (errors.length > 0) {
+            return;
+        }
+
+        const body = JSON.stringify({
+            user: {
+                email_address: emailTextBox.value,
+                password: password1TextBox.value,
+            },
+            bankCard: {
+                cardNumber: cardNumberTextBox.value,
+                expiryDate: expiryDateTextBox.value,
+                nameOnCard: cardNameTextBox.value,
+                street: billingStreetTextBox.value,
+                unit: billingUnitTextBox.value,
+                city: billingCityTextBox.value,
+                state: billingStateTextBox.value,
+                postal_code: billingZipTextBox.value,
+            },
+            shippingAddress: {
+                recipient: shippingNameTextBox.value,
+                street: shippingStreetTextBox.value,
+                unit: shippingUnitTextBox.value,
+                city: shippingCityTextBox.value,
+                state: shippingStateTextBox.value,
+                postal_code: shippingZipTextBox.value
+            }
+        });
+
+        const url = "<%= config.BASE_URL %>/api/sign-up";
+        const res = await fetch(url, {            
+            headers: { "Content-Type": "application/json" },  
+            method: "POST",
+            body: body
+        });
+        if (res.ok) {
+            const json = await res.json();
+            window.location.href = json.nextStep;
+        } else {
+            const json = await res.json();
+            signUpErrorContainer.innerHTML = json.message;
+        }
     }
-
-
 </script>

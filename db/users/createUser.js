@@ -7,7 +7,7 @@ const createUser = async function (conn, dto) {
     passhash = await bcrypt.hash(dto.password, salt);
   }
   const query = `insert into users (id, email_address, passhash)
-    values (null, ?, ?, ?)`;
+    values (null, ?, ?)`;
   const [result] = await conn.query(query, [dto.email_address, passhash]);
   return result.insertId;
 };
