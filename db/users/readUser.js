@@ -1,14 +1,17 @@
-const readUser = async function (conn, dto) {
+const readUser = async function (conn, dto, field) {
   var result = [];
   if (dto.id) {
-    const query = `select * from users where email_address = ?`;
+    const query = `select ${field || "*"} from users where email_address = ?`;
     [result] = await conn.query(query, [dto.id]);
   } else if (dto.email_address) {
-    const query = `select * from users where email_address = ?`;
+    const query = `select ${field || "*"} from users where email_address = ?`;
     [result] = await conn.query(query, [dto.email_address]);
   }
   if (result.length > 0) {
     const res = result[0];
+    if (field) {
+      return res[field];
+    }
     return {
       id: res.id,
       date_created: res.date_created,

@@ -6,7 +6,7 @@ const multer = require("multer");
 const upload = multer({ dest: "./uploads" });
 
 router.post("/", upload.single("file", 15), async function (req, res) {
-  res.status(501).send({ erro: "not implemented" });
+  res.status(501).send({ message: "not implemented" });
   /*
   dto = {
     file: req.file,
