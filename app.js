@@ -17,6 +17,16 @@ const textRouter = require("./routers/text");
 const getPrivatePage = require("./lib/getPrivatePage");
 
 const app = express();
+
+// Remove www subdomain as this could cause cors issues
+app.use((req, res, next) => {
+  if (req.headers.host.startsWith("www.")) {
+    const newHost = req.headers.host.slice(4);
+    return res.redirect(301, `${req.protocol}://${newHost}${req.originalUrl}`);
+  }
+  next();
+});
+
 app.set("trust proxy", true);
 app.use(express.json());
 app.use(cookieParser());
