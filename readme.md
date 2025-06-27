@@ -14,8 +14,17 @@
 
 1. navigate to the LightSail page: https://lightsail.aws.amazon.com/ls/webapp/us-west-2/instances/Hephillu3d/connect
 1. click **Connect using SSH**
-1. run the command: `screen -r node`
-1. stop the current execution with `Ctrl-C`
-1. pull and run the lastest code: `git pull && node app.js`
-1. detatch from the screen session by pressing `Ctrl-A` followed by `d`
-1. you can now close the ssh window
+1. run the command: `cd ~/hephillu3d && ./etc/update.sh`
+1. the end result should look like:
+
+```
+[PM2] Starting /home/ubuntu/hephillu3d/app.js in fork_mode (1 instance)
+[PM2] Done.
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ app                │ fork     │ 0    │ online    │ 0%       │ 29.6mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+```
+
+6. it is now safe to close the terminal window
