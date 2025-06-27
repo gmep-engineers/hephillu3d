@@ -7,11 +7,13 @@ const {
   S3Client,
   S3ServiceException,
 } = require("@aws-sdk/client-s3");
+const createModel = require("../db/models/createModel");
 
 const model = {
-  post: async function (conn, dto) {
+  post: async function (conn, dto, session) {
     const file = dto.file;
     var s3File = "";
+    var modelId = "";
     const client = new S3Client({
       region: "us-east-1",
       credentials: {
@@ -31,6 +33,11 @@ const model = {
         await client.send(command);
         s3File = `https://gmep-meshy-api-images-2025-06-10.s3.us-east-1.amazonaws.com/${storedFilename}`;
         await unlink("./uploads/" + file.filename);
+        modelId = await createModel(conn, {
+          owner_id: session ? session.owner_id : null,
+          ip_address: dto.ip_address,
+          filename: storedFilename,
+        });
       } catch (err) {
         if (
           err instanceof S3ServiceException &&
@@ -48,7 +55,7 @@ const model = {
         payload: { error: "invalid image type" },
       };
     }
-    return { status: 201, payload: { s3File: s3File } };
+    return { status: 201, payload: { s3File: s3File, modelId: modelId } };
   },
 };
 module.exports = model;
