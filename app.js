@@ -7,6 +7,9 @@ const login = require("./pages/login");
 const signUp = require("./pages/signUp");
 const design = require("./pages/design");
 const about = require("./pages/about");
+const terms = require("./pages/terms");
+const privacy = require("./pages/privacy");
+const contact = require("./pages/contact");
 
 const getPublicPage = require("./lib/getPublicPage");
 const imageRouter = require("./routers/image");
@@ -71,6 +74,15 @@ app.get("/design", async (req, res) => {
 
 app.get("/about", async(req, res) => {
   await getPublicPage(req, res, about);
+});
+app.get("/contact", async(req, res) => {
+  await getPublicPage(req, res, contact);
+});
+app.get("/terms", async(req, res) => {
+  await getPublicPage(req, res, terms);
+});
+app.get("/privacy", async(req, res) => {
+  await getPublicPage(req, res, privacy);
 });
 
 app.listen(3000, () => {
