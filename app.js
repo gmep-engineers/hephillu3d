@@ -6,6 +6,7 @@ const home = require("./pages/home");
 const login = require("./pages/login");
 const signUp = require("./pages/signUp");
 const design = require("./pages/design");
+const about = require("./pages/about");
 
 const getPublicPage = require("./lib/getPublicPage");
 const imageRouter = require("./routers/image");
@@ -66,6 +67,10 @@ app.get("/design", async (req, res) => {
   } else {
     await getPublicPage(req, res, design);
   }
+});
+
+app.get("/about", async(req, res) => {
+  await getPublicPage(req, res, about);
 });
 
 app.listen(3000, () => {
