@@ -27,4 +27,4 @@
 └────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
 ```
 
-6. it is now safe to close the terminal window
+5. it is now safe to close the terminal window

@@ -99,11 +99,11 @@ a {
     }    
 }
 
-.home-content-column-image{
+.margin-auto{
     margin: auto;
 }
 
-.design-container {    
+.flex-column {    
     display: flex;
     flex-direction: column;
 }
@@ -223,7 +223,7 @@ a {
     margin-top: 25px;
 }
 
-.content-column-invoice-preview-container {
+.flex-row {
     display: flex;
     flex-direction: row;
 }
@@ -560,4 +560,16 @@ hr {
 
 .login-content-container {
     height: auto;
+}
+
+.admin-content-container {
+    width: 1000px;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+}
+
+.admin-column-header {
+    margin: auto;
 }

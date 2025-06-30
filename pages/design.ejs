@@ -1,4 +1,4 @@
-<div class="design-container">
+<div class="flex-column">
     <div class="design-title-container">
         <div class="design-title-text">Hephillu3d</div>        
     </div>
@@ -147,7 +147,7 @@
             </div>
             <div class="content-column-invoice-container" id="invoice-container" style="display: none">
                 <!-- template -->
-                <div class="content-column-invoice-preview-container">
+                <div class="flex-row">
                     <div class="content-column-invoice-preview-column" id="preview-result">
                         <img id="preview-thumbnail" style="border-radius: 7px" height=100 src="images/home.png" />
                     </div>
@@ -244,20 +244,18 @@
 
     const checkTaskProgress = async function(taskId) {
         var progress = 0;
-        var thumbnailUrl = "";
-        var json = {}
         while (progress < 100) {
             res = await fetch("/api/task/?id=" + taskId);
             if (res.ok) {
-                json = await res.json();
+                var json = await res.json();
                 progress = json.progress;
                 const imageProgress = document.getElementById("image-progress");
                 imageProgress.innerHTML = ` processing ${progress}%`;
                 if (progress === 100) {
                     setCheckoutElems(json.thumbnail_url);
                 }
-            }             
-            await new Promise(resolve => setTimeout(resolve, 5000));       
+            }
+            await new Promise(resolve => setTimeout(resolve, 5000));
         }
     }
 

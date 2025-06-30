@@ -1,9 +1,15 @@
 <div class="header-container">
     <div class="header-logo"><a href="/">Hephillu3d</a></div>
     <% if (session) { %>
+        <% if (session.admin_id) { %>
         <div class="header-links-container">
-            <a href="/account">Account</a><span class="separator">|</span><a href="/api/logout">Logout</a>
-        </div>
+            <a href="/admin">Admin</a><span class="separator">|</span><a href="/account">Account</a><span class="separator">|</span><a href="/api/logout">Logout</a>
+        </div>        
+        <% } else { %>
+            <div class="header-links-container">
+                <a href="/account">Account</a><span class="separator">|</span><a href="/api/logout">Logout</a>
+            </div>         
+        <% } %>    
     <% } else { %>
         <div class="header-links-container">
             <a href="/login">Login</a><span class="separator">|</span><a href="/sign-up">Sign Up</a>

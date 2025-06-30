@@ -1,6 +1,7 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
 var path = require("path");
+const admin = require("./pages/admin");
 const home = require("./pages/home");
 const login = require("./pages/login");
 const signUp = require("./pages/signUp");
@@ -15,6 +16,7 @@ const signUpRouter = require("./routers/signUp");
 const taskRouter = require("./routers/task");
 const textRouter = require("./routers/text");
 const getPrivatePage = require("./lib/getPrivatePage");
+const getAdminPage = require("./lib/getAdminPage");
 
 const app = express();
 
@@ -44,6 +46,10 @@ app.use("/api/text", textRouter);
 
 app.get("/", async (req, res) => {
   await getPublicPage(req, res, home);
+});
+
+app.get("/admin", async (req, res) => {
+  await getAdminPage(req, res, admin);
 });
 
 app.get("/sign-up", async (req, res) => {

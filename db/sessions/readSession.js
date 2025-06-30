@@ -14,6 +14,7 @@ const readSession = async function (conn, dto) {
       date_created: res.date_created,
       owner_id: res.owner_id,
       ip_address: res.ip_address,
+      admin_id: res.admin_id,
     };
   }
   return null;
