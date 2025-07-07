@@ -1,8 +1,9 @@
+const createMeshyTask = require("../db/meshy_tasks/createMeshyTask");
 const config = require("../etc/config");
 const axios = require("axios");
 
 const text = {
-  post: async function (conn, dto) {
+  post: async function (conn, dto, session) {
     const text = dto.text;
     const headers = { Authorization: `Bearer ${config.API_KEY}` };
     const payload = {
@@ -19,8 +20,14 @@ const text = {
         { headers }
       );
       taskId = response.data.result;
+      await createMeshyTask(conn, {
+        id: taskId,
+        owner_id: session.owner_id,
+        ip: dto.ip_address,
+      });
       return { status: 201, payload: { taskId: taskId } };
     } catch (err) {
+      console.log(err);
       return { status: 400, payload: { error: err } };
     }
   },

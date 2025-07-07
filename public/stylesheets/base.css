@@ -119,6 +119,10 @@ a {
     }
 }
 
+.design-content-column-container {
+    width: 50%;
+}
+
 .design-title-text {
     margin: auto;
     font-size: 24px;
@@ -141,7 +145,6 @@ a {
 .content-column-container {
     display: flex;
     flex-direction: column;
-    width: 50%;
     background-color: var(--bg-color-2);
     border-radius: 20px;
     margin-left: 10px;
@@ -530,7 +533,7 @@ hr {
 }
 
 .login-button-container {
-    position: relative;    
+    position: relative;
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -539,7 +542,7 @@ hr {
 }
 
 .login-forgot-password-container {
-    position: relative;    
+    position: relative;
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -562,14 +565,36 @@ hr {
     height: auto;
 }
 
-.admin-content-container {
-    width: 1000px;
-    height: auto;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 20px;
+.admin-container {
+    display: grid;
+    grid-template-areas:
+    "options-container view-container";
+    grid-template-columns: 100px auto;
+    gap: 10px;
 }
 
-.admin-column-header {
-    margin: auto;
+.admin-container > div  {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-container > div.options-container {
+    grid-area: options-container;
+
+    .option {
+        font-size: 16px;
+        margin: 5px;
+        cursor: pointer;
+
+        a {
+            text-decoration: none;
+            color: var(--font-color-1);
+        }
+    }
+}
+
+.admin-container > div.view-container {
+    grid-area: view-container;
+    min-width: 1200px
+    
 }

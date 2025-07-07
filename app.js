@@ -52,6 +52,10 @@ app.get("/admin", async (req, res) => {
   await getAdminPage(req, res, admin);
 });
 
+app.get("/admin/:view", async (req, res) => {
+  await getAdminPage(req, res, admin);
+});
+
 app.get("/sign-up", async (req, res) => {
   await getPublicPage(req, res, signUp);
 });

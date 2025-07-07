@@ -1,5 +1,7 @@
+const updateMeshyTask = require("../db/meshy_tasks/updateMeshyTask");
 const config = require("../etc/config");
 const axios = require("axios");
+const apiMessageRes = require("../lib/apiMessageRes");
 
 const task = {
   get: async function (conn, dto) {
@@ -22,8 +24,13 @@ const task = {
         };
       }
     } catch (err) {
+      console.log(err);
       return { status: 500, payload: { error: "server error" } };
     }
+  },
+  put: async function (conn, dto) {
+    await updateMeshyTask(conn, dto);
+    return apiMessageRes(201, "updated");
   },
 };
 module.exports = task;

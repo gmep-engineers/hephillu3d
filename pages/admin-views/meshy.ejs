@@ -1,0 +1,47 @@
+<div class="flex-column ">    
+    <div class="content-column-container">
+        <table>
+            <tr>
+                <td>Preview</td>
+                <td>Date</td>
+                <td>User</td>
+                <td>IP Address</td>
+                <td>Accept</td>
+                <td>Reject</td>
+            </tr>
+            <%- htmlAdminMeshyRows %>
+        </table> 
+    </div>
+</div>
+<script>
+    const updateApproveReject = function(elem) {
+        if (elem.id.includes("approve")) {
+            const id = elem.id.replace("approve-", "")
+            const rejectElem = document.getElementById("reject-" + id);
+            if (elem.checked) {
+                rejectElem.checked = false;
+                fetch("<%= config.BASE_URL %>/api/task/?id=" + id, {
+                    headers: { "content-type": "application/json" },
+                    body: JSON.stringify({
+                        approved: true
+                    }),
+                    method: "PUT"
+                })
+            }            
+        }
+        if (elem.id.includes("reject")) {
+            const id = elem.id.replace("reject-", "")
+            const approveElem = document.getElementById("approve-" + id);
+            if (elem.checked) {
+                approveElem.checked = false;
+                fetch("<%= config.BASE_URL %>/api/task/?id=" + id, {
+                    headers: { "content-type": "application/json" },
+                    body: JSON.stringify({
+                        approved: false
+                    }),
+                    method: "PUT"
+                })
+            }
+        }
+    }
+</script>

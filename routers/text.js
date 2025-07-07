@@ -6,6 +6,7 @@ const callPrivateEndpoint = require("../lib/callPrivateEndpoint");
 router.post("/", async function (req, res) {
   dto = {
     text: req.body.text,
+    ip_address: req.ip,
   };
   const apiRes = await callPrivateEndpoint(req, res, textApi, "post", dto);
   res.status(apiRes.status).send(apiRes.payload);

@@ -1,25 +1,16 @@
-<div class="flex-column ">    
-    <div class="content-container admin-content-container">
-        <div class="content-column-container admin-content-container">
-            <div class="flex-row">
-                <div class="admin-column-header">
-                    Preview
-                </div>
-                <div class="admin-column-header">
-                    Preview
-                </div>
-                <div class="admin-column-header">
-                    Preview
-                </div>
-                <div class="admin-column-header">
-                    Preview
-                </div>
-            </div>
-            <div class="flex-row">
-                <hr/>
-            </div>
-            <%- htmlAdminRows %>
-            <hr/>
+<div class="admin-container">
+    <div class="options-container">
+        <div class="option">
+            <a href="<%= config.BASE_URL %>/admin/meshy">Meshy</a>
         </div>
+        <div class="option">
+           <a href="<%= config.BASE_URL %>/admin/model">Model</a> 
+        </div>        
+        <div class="option">
+            <a href="<%= config.BASE_URL %>/admin/users">Users</a>
+        </div>
+    </div>
+    <div class="view-container">
+        <%- htmlAdminView %>
     </div>
 </div>
