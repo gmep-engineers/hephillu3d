@@ -25,6 +25,9 @@ const task = {
       }
     } catch (err) {
       console.log(err);
+      if (err.status === 404) {
+        return apiMessageRes(404, "not found");
+      }
       return { status: 500, payload: { error: "server error" } };
     }
   },

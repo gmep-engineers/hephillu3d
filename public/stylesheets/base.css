@@ -598,3 +598,8 @@ hr {
     min-width: 1200px
     
 }
+
+.upload-preview {
+    display: flex;
+    margin: 10px auto 20px auto;
+}
