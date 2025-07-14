@@ -199,8 +199,8 @@
             </div>
         </div>
     </div>   
-    <div class="upload-preview content-column-container">
-        <img src="" name="preview-thumbnail" style="display: none; border-radius: 5px;"/>
+    <div class="upload-preview content-column-container" id="upload-preview-container" style="display: none;">
+        <img src="" name="preview-thumbnail" style="border-radius: 5px;"/>
     </div> 
 </div>
 <div id="3d-model-viewer" class="modal">
@@ -237,7 +237,19 @@
     }
 
     const setCheckoutElems = function(thumbnailUrl) {
-        if (thumbnailUrl) {
+        const requiresUploadElems = document.getElementsByName('requires-upload');
+        for (let i = 0; i < requiresUploadElems.length; i++) {
+            requiresUploadElems[i].style.color = 'black';
+            requiresUploadElems[i].style.backgroundColor = 'white';
+            requiresUploadElems[i].style.pointerEvents = 'unset';
+        } 
+        const requiresUploadButtons = document.getElementsByName('requires-upload-button');
+        for (let i = 0; i < requiresUploadButtons.length; i++) {
+            requiresUploadButtons[i].style.backgroundColor = '#F80';
+        } 
+        if (thumbnailUrl) {            
+            const uploadPreviewContainer = document.getElementById("upload-preview-container");
+            uploadPreviewContainer.style.display = "flex"
             const previewThumbnails = document.getElementsByName("preview-thumbnail");
             for (let i = 0; i < previewThumbnails.length; i++) {
                 previewThumbnails[i].setAttribute('src', thumbnailUrl);
@@ -250,31 +262,48 @@
         invoiceContainer.style.display = 'unset';  
     }
 
-    const checkReviewProgress = async function(taskId) {
-        
+    const checkTextReviewProgress = async function(taskId) {
+        var approved = false;
+        while (!approved) {
+            var res = await fetch("/api/text/?id=" + taskId);
+            if (res.ok) {
+                var json = await res.json();
+                if (json.approved) {    
+                    const imageProgress = document.getElementById("image-progress");
+                    imageProgress.innerHTML = ` ready!`;                
+                    setCheckoutElems(json.thumbnail_url);
+                }
+            }
+            else if (res.status === 404) {
+                const imageProgress = document.getElementById("image-progress");
+                imageProgress.innerHTML = ` not found`;
+                return;
+            }
+            await new Promise(resolve => setTimeout(resolve, 5000));
+        }
     }
 
     const checkTaskProgress = async function(taskId) {
         var progress = 0;
         while (progress < 100) {
-            res = await fetch("/api/task/?id=" + taskId);
+            var res = await fetch("/api/task?id=" + taskId);
             if (res.ok) {
-                var json = await res.json();
+                var json = await res.json();                
                 progress = json.progress;
                 const imageProgress = document.getElementById("image-progress");
                 imageProgress.innerHTML = ` processing ${progress}%`;
-                if (progress === 100) {
-                    const requiresUploadElems = document.getElementsByName('requires-upload');
-                    for (let i = 0; i < requiresUploadElems.length; i++) {
-                        requiresUploadElems[i].style.color = 'black';
-                        requiresUploadElems[i].style.backgroundColor = 'white';
-                        requiresUploadElems[i].style.pointerEvents = 'unset';
-                    } 
-                    const requiresUploadButtons = document.getElementsByName('requires-upload-button');
-                    for (let i = 0; i < requiresUploadButtons.length; i++) {
-                        requiresUploadButtons[i].style.backgroundColor = '#F80';
-                    } 
-                    setCheckoutElems(json.thumbnail_url);
+                await fetch("/api/task?id=" + taskId, {
+                    headers: {"content-type": "application/json"},
+                    method: "PUT",
+                    body: JSON.stringify({
+                        approved: 0,
+                        progress: progress,
+                        thumbnail_url: json.thumbnail_url
+                    })
+                })
+                if (progress === 100) {                    
+                    imageProgress.innerHTML = ` under review`;
+                    checkTextReviewProgress(taskId);
                 }
             }
             else if (res.status === 404) {

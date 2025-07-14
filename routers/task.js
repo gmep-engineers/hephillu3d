@@ -15,6 +15,8 @@ router.put("/", async function (req, res) {
   const dto = {
     id: req.query.id,
     approved: req.body.approved,
+    progress: req.body.progress,
+    thumbnail_url: req.body.thumbnail_url,
   };
   const apiRes = await callAdminEndpoint(req, res, taskApi, "put", dto);
   res.status(apiRes.status).send(apiRes.payload);
