@@ -571,6 +571,7 @@ hr {
     "options-container view-container";
     grid-template-columns: 100px auto;
     gap: 10px;
+    padding: 20px;
 }
 
 .admin-container > div  {

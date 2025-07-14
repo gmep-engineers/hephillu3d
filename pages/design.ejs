@@ -262,16 +262,29 @@
         invoiceContainer.style.display = 'unset';  
     }
 
+    const setNotApproved = function() {
+        const imageProgress = document.getElementById("image-progress");
+        imageProgress.innerHTML = ` Not approved!`;  
+        const loaderGif = document.getElementById("loader-gif");
+        loaderGif.style.display = 'none'     
+        const invoiceContainer = document.getElementById("invoice-container");
+        invoiceContainer.style.display = 'unset';  
+    }
+
     const checkTextReviewProgress = async function(taskId) {
         var approved = false;
         while (!approved) {
-            var res = await fetch("/api/text/?id=" + taskId);
+            var res = await fetch("/api/text?id=" + taskId);
             if (res.ok) {
                 var json = await res.json();
-                if (json.approved) {    
+                approved = json.approved;
+                if (approved) {
                     const imageProgress = document.getElementById("image-progress");
-                    imageProgress.innerHTML = ` ready!`;                
+                    imageProgress.innerHTML = ` ready!`;
                     setCheckoutElems(json.thumbnail_url);
+                } else if (json.approved === 0) {
+                    setNotApproved();
+                    return;
                 }
             }
             else if (res.status === 404) {
@@ -296,7 +309,7 @@
                     headers: {"content-type": "application/json"},
                     method: "PUT",
                     body: JSON.stringify({
-                        approved: 0,
+                        approved: null,
                         progress: progress,
                         thumbnail_url: json.thumbnail_url
                     })

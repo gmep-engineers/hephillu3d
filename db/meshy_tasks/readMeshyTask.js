@@ -10,6 +10,7 @@ const readMeshyTask = async function (conn, dto) {
       owner_id: res.owner_id,
       date_created: res.date_created,
       approved: res.approved,
+      thumbnail_url: res.thumbnail_url,
     };
   }
   return null;
