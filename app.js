@@ -6,6 +6,8 @@ const home = require("./pages/home");
 const login = require("./pages/login");
 const signUp = require("./pages/signUp");
 const design = require("./pages/design");
+const gallery = require("./pages/gallery");
+const order = require("./pages/order");
 
 const getPublicPage = require("./lib/getPublicPage");
 const imageRouter = require("./routers/image");
@@ -69,6 +71,22 @@ app.get("/design", async (req, res) => {
     await getPrivatePage(req, res, design);
   } else {
     await getPublicPage(req, res, design);
+  }
+});
+
+app.get("/gallery", async (req, res) => {
+  if (req.cookies.sid) {
+    await getPrivatePage(req, res, gallery);
+  } else {
+    await getPublicPage(req, res, gallery);
+  }
+});
+
+app.get("/order", async (req, res) => {
+  if (req.cookies.sid) {
+    await getPrivatePage(req, res, order);
+  } else {
+    await getPublicPage(req, res, order);
   }
 });
 

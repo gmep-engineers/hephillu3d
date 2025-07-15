@@ -231,6 +231,10 @@ a {
     flex-direction: row;
 }
 
+.padding-20 {
+    padding: 20px;
+}
+
 .content-column-invoice-preview-column {
     display: flex;
     flex-direction: column;
@@ -603,4 +607,39 @@ hr {
 .upload-preview {
     display: flex;
     margin: 10px auto 20px auto;
+}
+
+.gallery-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.gallery-image-container {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    margin: 10px;
+    .image {
+        margin: auto;
+    }
+    .name {
+        margin: auto;
+    }
+    .description {
+        margin: auto;
+        font-size: 12px;
+    }
+    .select-button {
+        margin: 10px auto auto auto; 
+
+        button {
+            width: 80px;
+            height: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 10px;
+            cursor: pointer;
+        }    
+    }
 }
