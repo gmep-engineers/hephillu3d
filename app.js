@@ -2,6 +2,7 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 var path = require("path");
 const admin = require("./pages/admin");
+const cart = require("./pages/cart");
 const home = require("./pages/home");
 const login = require("./pages/login");
 const signUp = require("./pages/signUp");
@@ -56,6 +57,14 @@ app.get("/admin", async (req, res) => {
 
 app.get("/admin/:view", async (req, res) => {
   await getAdminPage(req, res, admin);
+});
+
+app.get("/cart", async (req, res) => {
+  if (req.cookies.sid) {
+    await getPrivatePage(req, res, cart);
+  } else {
+    await getPublicPage(req, res, cart);
+  }
 });
 
 app.get("/sign-up", async (req, res) => {

@@ -14,26 +14,28 @@
         <div class="header-links-container">
             <a href="/login">Login</a><span class="separator">|</span><a href="/sign-up">Sign Up</a>
         </div>
-    <% } %>
-    <div class="header-cart-container">  
-        <object
-            class="cart-icon"
-            width="30"
-            height="30"
-            id="cart-icon"
-            data="/images/cart.svg"
-            type="image/svg+xml"
-        ></object>      
-        <% if (cart.length > 0) { %>
-        <object
-            class="cart-amount-icon"
-            width="20"
-            height="20"
-            id="cart-icon"
-            data="/images/circle.svg"
-            type="image/svg+xml"
-        ></object>
-        <div class="cart-amount-text"><%= cart.length %></div>
-        <% } %>        
+    <% } %>    
+    <div class="header-cart-container">
+        <a href="/cart">
+            <object
+                class="cart-icon"
+                width="30"
+                height="30"
+                id="cart-icon"
+                data="/images/cart.svg"
+                type="image/svg+xml"
+            ></object>      
+            <% if (cart.length > 0) { %>
+            <object
+                class="cart-amount-icon"
+                width="20"
+                height="20"
+                id="cart-icon"
+                data="/images/circle.svg"
+                type="image/svg+xml"
+            ></object>
+            <div class="cart-amount-text"><%= cart.length %></div>
+            <% } %>     
+        </a>             
     </div>
 </div>

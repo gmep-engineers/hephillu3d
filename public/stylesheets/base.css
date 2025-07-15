@@ -16,7 +16,6 @@ body {
     @media screen and (max-width: 992px) {
         height: auto;
     }
-
 }
 
 a {
@@ -28,7 +27,7 @@ a {
 
 .main {
     margin: auto;
-     @media screen and (max-width: 992px) {
+    @media screen and (max-width: 992px) {
         height: auto;
     }
 }
@@ -521,7 +520,7 @@ hr {
     .cart-icon {        
         pointer-events: none;
         filter: invert(48%) sepia(95%) saturate(1000%) hue-rotate(330deg)
-            brightness(118%) contrast(119%);
+            brightness(100%) contrast(85%);
     }
 
     .cart-amount-icon {
@@ -530,7 +529,7 @@ hr {
         top: -6px;
         pointer-events: none;
         filter: invert(48%) sepia(95%) saturate(1000%) hue-rotate(330deg)
-            brightness(118%) contrast(119%);
+            brightness(100%) contrast(85%);
     }
     .cart-amount-text {
         position: absolute;
