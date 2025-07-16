@@ -8,7 +8,7 @@ const callAdminEndpoint = require("../lib/callAdminEndpoint");
 const upload = multer({ dest: "./uploads" });
 
 router.post("/", upload.single("file", 15), async function (req, res) {
-  dto = {
+  const dto = {
     file: req.file,
     ip_address: req.ip,
   };
