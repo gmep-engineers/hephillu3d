@@ -1,6 +1,6 @@
 <div class="header-container">
     <div class="header-logo"><a href="/">Hephillu3d</a></div>
-    <% if (session) { %>
+    <% if (session.owner_id) { %>
         <% if (session.admin_id) { %>
         <div class="header-links-container">
             <a href="/admin">Admin</a><span class="separator">|</span><a href="/account">Account</a><span class="separator">|</span><a href="/api/logout">Logout</a>
@@ -15,8 +15,9 @@
             <a href="/login">Login</a><span class="separator">|</span><a href="/sign-up">Sign Up</a>
         </div>
     <% } %>    
-    <div class="header-cart-container">
-        <a href="/cart">
+    
+    <a href="/cart">
+        <div class="header-cart-container">
             <object
                 class="cart-icon"
                 width="30"
@@ -35,7 +36,7 @@
                 type="image/svg+xml"
             ></object>
             <div class="cart-amount-text"><%= cartCount %></div>
-            <% } %>     
-        </a>             
-    </div>
+            <% } %>             
+        </div>     
+    </a>    
 </div>

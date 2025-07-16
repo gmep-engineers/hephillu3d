@@ -14,7 +14,7 @@
 
 1. navigate to the LightSail page: https://lightsail.aws.amazon.com/ls/webapp/us-west-2/instances/Hephillu3d/connect
 1. click **Connect using SSH**
-1. run the command: `cd ~/hephillu3d && ./etc/update.sh`
+1. run the command: `cd ~/hephillu3d && sh ./etc/update.sh`
 1. the end result should look like:
 
 ```

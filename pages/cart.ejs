@@ -1,3 +1,8 @@
+<% if (htmlCartItems.length === 0) { %>
+<div class="flex-column padding-20 content-column-container">
+    <div class="empty-cart-text">Your cart is empty! <a href='/design'>Click here</a> to start designing!</div>
+</div>
+<% } else { %>
 <div class="flex-column padding-20 content-column-container">
     <table>
         <%- htmlCartItems %>
@@ -21,3 +26,4 @@
         </tr>
     </table>
 </div>
+<% } %>

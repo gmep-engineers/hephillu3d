@@ -19,6 +19,7 @@ const getGlowType = function (glow_id) {
 
 const cart = async function (req, conn, session) {
   const params = common.params;
+  params.htmlCartItems = "";
   var destroyConn = false;
   if (!conn) {
     conn = await mysql.createConnection(common.db);
@@ -29,7 +30,7 @@ const cart = async function (req, conn, session) {
     cart = await readCart(conn, { session_id: session.id });
   }
   if (!cart) {
-    // show empty cart page
+    return await common.render("pages/cart", params);
   }
   const models = await readModels(conn, { cart_id: cart.id });
   const meshyTasks = await readMeshyTasks(conn, {
@@ -38,7 +39,6 @@ const cart = async function (req, conn, session) {
   const galleryImages = await readCartPageGalleryImageCartRels(conn, {
     cart_id: cart.id,
   });
-  params.htmlCartItems = "";
   for (let i = 0; i < models.length; i++) {
     params.htmlCartItems += await cartItem({
       glowType: getGlowType(models[i].glow_id),
