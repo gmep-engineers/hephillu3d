@@ -135,7 +135,7 @@
             </div>
             <div class="content-column-button-container">
                 <div class="content-column-button">
-                    <button name="requires-upload-button" style="background-color: #aaa;" click="addToCart()">
+                    <button name="requires-upload-button" style="background-color: #aaa;" onclick="addToCart()">
                         Add to Cart
                     </button>
                 </div>
@@ -154,6 +154,8 @@
     </div> 
 </div>
 <script>
+    var modelId = null;
+    var meshyTaskId = null;
     const showHidePromptInput = function() {
         const textOptionRadioButton = document.getElementById("text-option-radio-button");
         const promptInput = document.getElementById("prompt-input");
@@ -299,6 +301,7 @@
         var json = {}
         if (res.ok) {
             json = await res.json();
+            modelId = json.modelId;
             s3File = json.s3File;
             const uploadPreviewContainer = document.getElementById("upload-preview-container");
             uploadPreviewContainer.style.display = "flex";
@@ -349,9 +352,9 @@
             var taskId = "";
             if (res.ok) {
                 json = await res.json();
-                taskId = json.taskId;        
-                localStorage.setItem("taskId", taskId);  
-                                       
+                taskId = json.taskId; 
+                meshyTaskId = json.taskId;       
+                localStorage.setItem("taskId", taskId);                                       
                 await checkTaskProgress(taskId);
             }
         } else if (modelOptionRadioButton.checked) {
@@ -362,12 +365,19 @@
         }
     }
 
-    const addToCart = async function() {
-        // try get cart
-        const cartCookie = document.cookie.
-        // if no cart, create cart
-        // set cart id cookie
-        // add item to cart
+    const addToCart = async function() {        
+        const res = await fetch('/api/cart/add-item', {
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({
+                modelId: modelId,
+                meshyTaskId: meshyTaskId,                
+            }),
+            method: 'POST'
+        })
+        if (res.ok) {
+            localStorage.removeItem('taskId');
+            window.location.reload();
+        }
     }
 
     const setGlowOption = function(option) {
@@ -398,16 +408,9 @@
     }
 
     var ledCandle = localStorage.getItem("ledCandle");
-    if (ledCandle === "true") {
-        const ledCandleValue = document.getElementById("led-candle-value");
-        ledCandleValue.style.display = "unset";       
+    if (ledCandle === "true") {     
         const ledCandleOptionCheckBox = document.getElementById("led-candle-option-checkbox");
         ledCandleOptionCheckBox.checked = true;
     }   
-
-    var name = localStorage.getItem("nameTextArea");
-    if (name !== "null") {
-        nameTextArea.value = name;
-    }
 </script>
 <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>

@@ -8,7 +8,7 @@ router.get("/", async function (req, res) {
   const dto = {
     id: req.query.id,
   };
-  const apiRes = await callPublicEndpoint(taskApi, "get", dto);
+  const apiRes = await callPublicEndpoint(req, res, taskApi, "get", dto);
   res.status(apiRes.status).send(apiRes.payload);
 });
 router.put("/", async function (req, res) {

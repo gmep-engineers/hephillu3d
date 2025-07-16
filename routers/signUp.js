@@ -12,7 +12,7 @@ router.post("/", async function (req, res) {
     },
     ip_address: req.ip,
   };
-  const apiRes = await callPublicEndpoint(signUpApi, "post", dto);
+  const apiRes = await callPublicEndpoint(req, res, signUpApi, "post", dto);
   addResCookies(res, apiRes.cookies);
   res.status(apiRes.status).send(apiRes.payload);
 });

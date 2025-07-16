@@ -1,12 +1,16 @@
 const express = require("express");
 const cartApi = require("../api/cart");
+const callPublicEndpoint = require("../lib/callPublicEndpoint");
 const router = express.Router();
 
-router.post("/", upload.single("file", 15), async function (req, res) {
+router.post("/add-item", async function (req, res) {
   const dto = {
-    cart_id: req.cookies.cart_id,
     modelId: req.body.modelId,
     meshyTaskId: req.body.meshyTaskId,
-    ip_address: req.ip_address,
+    image_id: req.body.image_id,
+    ip_address: req.ip,
   };
+  const apiRes = await callPublicEndpoint(req, res, cartApi, "addItem", dto);
+  res.status(apiRes.status).send(apiRes.payload);
 });
+module.exports = router;

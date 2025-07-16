@@ -16,7 +16,7 @@ router.post("/", upload.single("file", 15), async function (req, res) {
     const apiRes = await callPrivateEndpoint(req, res, modelApi, "post", dto);
     res.status(apiRes.status).send(apiRes.payload);
   } else {
-    const apiRes = await callPublicEndpoint(modelApi, "post", dto);
+    const apiRes = await callPublicEndpoint(req, res, modelApi, "post", dto);
     res.status(apiRes.status).send(apiRes.payload);
   }
 });

@@ -3,10 +3,10 @@ const head = require("../components/head");
 const header = require("../components/header");
 const common = require("../lib/common");
 
-const page = async function (session, mainHtml) {
+const page = async function (conn, session, mainHtml) {
   const params = common.params;
   params.head = await head();
-  params.header = await header(session);
+  params.header = await header(conn, session);
   params.main = mainHtml;
   params.footer = await footer();
 

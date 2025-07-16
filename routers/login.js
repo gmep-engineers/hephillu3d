@@ -9,7 +9,7 @@ router.post("/", async function (req, res) {
     email_address: req.body.email_address,
     password: req.body.password,
   };
-  const apiRes = await callPublicEndpoint(loginApi, "post", dto);
+  const apiRes = await callPublicEndpoint(req, res, loginApi, "post", dto);
   addResCookies(res, apiRes.cookies);
   res.status(apiRes.status).send(apiRes.payload);
 });

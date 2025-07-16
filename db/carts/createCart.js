@@ -1,9 +1,11 @@
+const { v4: uuidv4 } = require("uuid");
 const createCart = async function (conn, dto) {
+  const id = uuidv4();
   const query = `
-    insert into carts (id, owner_id, ip_address)
-    values (null, ?, ?)
+    insert into carts (id, owner_id, ip_address, session_id)
+    values (?, ?, ?, ?)
     `;
-  const [result] = await conn.query(query, [dto.owner_id, dto.ip_address]);
-  return result.insertId;
+  await conn.query(query, [id, dto.owner_id, dto.ip_address, dto.session_id]);
+  return id;
 };
 module.exports = createCart;

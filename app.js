@@ -11,6 +11,7 @@ const gallery = require("./pages/gallery");
 const order = require("./pages/order");
 
 const getPublicPage = require("./lib/getPublicPage");
+const cartRouter = require("./routers/cart");
 const imageRouter = require("./routers/image");
 const loginRouter = require("./routers/login");
 const logoutRouter = require("./routers/logout");
@@ -39,6 +40,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
 
+app.use("/api/cart", cartRouter);
 app.use("/api/image", imageRouter);
 app.use("/api/login", loginRouter);
 app.use("/api/logout", logoutRouter);
