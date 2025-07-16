@@ -1,5 +1,8 @@
+const updateMeshyTask = require("../db/meshy_tasks/updateMeshyTask");
 const config = require("../etc/config");
 const axios = require("axios");
+const apiMessageRes = require("../lib/apiMessageRes");
+const readMeshyTask = require("../db/meshy_tasks/readMeshyTask");
 
 const task = {
   get: async function (conn, dto) {
@@ -13,17 +16,28 @@ const task = {
       if (response.data.progress < 100) {
         return { status: 200, payload: { progress: response.data.progress } };
       } else {
+        const meshyTask = await readMeshyTask(conn, { id: dto.id });
+        var approved = null;
+        if (meshyTask) approved = meshyTask.approved;
         return {
           status: 200,
           payload: {
             progress: response.data.progress,
             thumbnail_url: response.data.thumbnail_url,
+            approved: approved,
           },
         };
       }
     } catch (err) {
+      if (err.status === 404) {
+        return apiMessageRes(404, "not found");
+      }
       return { status: 500, payload: { error: "server error" } };
     }
+  },
+  put: async function (conn, dto) {
+    await updateMeshyTask(conn, dto);
+    return apiMessageRes(201, "updated");
   },
 };
 module.exports = task;

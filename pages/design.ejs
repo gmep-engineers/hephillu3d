@@ -1,9 +1,9 @@
-<div class="flex-column">
+<div class="flex-column" style="padding: 20px">
     <div class="design-title-container">
         <div class="design-title-text">Hephillu3d</div>        
     </div>
     <div class="content-container">
-        <div class="content-column-container">
+        <div class="content-column-container design-content-column-container">
             <div class="content-column-title">
                 Upload & Preview
             </div>
@@ -83,7 +83,7 @@
                 </div>
             </div>
         </div>
-        <div class="content-column-container">
+        <div class="content-column-container design-content-column-container" name="requires-upload" style="color: gray; background-color: #eee; pointer-events: none;">
             <div class="content-column-title">
                 Design Your Glow
             </div>
@@ -135,84 +135,23 @@
             </div>
             <div class="content-column-button-container">
                 <div class="content-column-button">
-                    <button>
+                    <button name="requires-upload-button" style="background-color: #aaa;">
                         Add to Cart
                     </button>
                 </div>
             </div>
-        </div>
-        <div class="content-column-container">
-            <div class="content-column-title">
-                Checkout
-            </div>
-            <div class="content-column-invoice-container" id="invoice-container" style="display: none">
-                <!-- template -->
-                <div class="flex-row">
-                    <div class="content-column-invoice-preview-column" id="preview-result">
-                        <img id="preview-thumbnail" style="border-radius: 7px" height=100 src="images/home.png" />
-                    </div>
-                    <div class="content-column-invoice-preview-column">                        
-                        <textarea id="name-textarea" placeholder="Give it a name!"></textarea>
-                        <div class="content-column-invoice-preview-column-subtitle" id="glow-option-value">
-                        </div>
-                        <div class="content-column-invoice-preview-column-candle-type" style="display: none", id="led-candle-value">
-                            LED Candle
-                        </div>
-                    </div>
-                </div>
-                <hr/>
-                <div class="content-column-invoice-amount-container">
-                    <div class="content-column-invoice-amount-line-item">
-                        <div class="content-column-invoice-amount-line-item-title">
-                            Subtotal
-                        </div>
-                        <div class="content-column-invoice-amount-line-item-amount">
-                            $25.00
-                        </div>
-                    </div>
-                    <div class="content-column-invoice-amount-line-item">
-                        <div class="content-column-invoice-amount-line-item-title">
-                            Shipping
-                        </div>
-                        <div class="content-column-invoice-amount-line-item-amount">
-                            $4.99
-                        </div>
-                    </div>
-                    <hr/>
-                    <div class="content-column-invoice-amount-line-item">
-                        <div class="content-column-invoice-amount-line-item-title">
-                            Total
-                        </div>
-                        <div class="content-column-invoice-amount-line-item-amount">
-                            $29.99
-                        </div>
-                    </div>
-                </div>
-                <!-- end template -->
-            </div>
-            <div class="content-column-button-container">
-                <div class="content-column-button">
-                    <button>
-                        Proceed to Payment
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>    
-</div>
-<div id="3d-model-viewer" class="modal">
-  <!-- Modal content -->
-  <div class="modal-content">
-    <span class="close" onclick="close3dViewer()">&times;</span>
-    <model-viewer 
-        style="margin: auto; height: 400px; width: 400px;"
-        id="uploaded-3d-model"
-        alt="uploaded 3d model"
-        src=""
-        shadow-intensity="1"
-        camera-controls touch-action="pan-y"></model-viewer>
-  </div>
-
+        </div>        
+    </div>   
+    <div class="upload-preview content-column-container" id="upload-preview-container" style="display: none;">
+        <img src="" name="preview-thumbnail" style="border-radius: 5px; display: none;"/>
+        <model-viewer 
+            style="margin: auto; height: 400px; width: 400px; display: none"
+            id="uploaded-3d-model"
+            alt="uploaded 3d model"
+            src=""
+            shadow-intensity="1"
+            camera-controls touch-action="pan-y"></model-viewer>
+    </div> 
 </div>
 <script>
     const showHidePromptInput = function() {
@@ -234,26 +173,90 @@
     }
 
     const setCheckoutElems = function(thumbnailUrl) {
-        const previewThumbnail = document.getElementById("preview-thumbnail");
-        previewThumbnail.setAttribute('src', thumbnailUrl)
+        const requiresUploadElems = document.getElementsByName('requires-upload');
+        for (let i = 0; i < requiresUploadElems.length; i++) {
+            requiresUploadElems[i].style.color = 'black';
+            requiresUploadElems[i].style.backgroundColor = 'white';
+            requiresUploadElems[i].style.pointerEvents = 'unset';
+        } 
+        const requiresUploadButtons = document.getElementsByName('requires-upload-button');
+        for (let i = 0; i < requiresUploadButtons.length; i++) {
+            requiresUploadButtons[i].style.backgroundColor = '#F80';
+        } 
+        if (thumbnailUrl) {            
+            const uploadPreviewContainer = document.getElementById("upload-preview-container");
+            uploadPreviewContainer.style.display = "flex"
+            const previewThumbnails = document.getElementsByName("preview-thumbnail");
+            for (let i = 0; i < previewThumbnails.length; i++) {
+                previewThumbnails[i].setAttribute('src', thumbnailUrl);
+                previewThumbnails[i].style.display = "block";
+            }
+        }        
         const loaderGif = document.getElementById("loader-gif");
         loaderGif.style.display = 'none'     
         const invoiceContainer = document.getElementById("invoice-container");
         invoiceContainer.style.display = 'unset';  
     }
 
+    const setNotApproved = function() {
+        const imageProgress = document.getElementById("image-progress");
+        imageProgress.innerHTML = ` Not approved!`;  
+        const loaderGif = document.getElementById("loader-gif");
+        loaderGif.style.display = 'none'     
+        const invoiceContainer = document.getElementById("invoice-container");
+        invoiceContainer.style.display = 'unset';  
+    }
+
+    const checkTextReviewProgress = async function(taskId) {
+        var approved = false;
+        while (!approved) {
+            var res = await fetch("/api/text?id=" + taskId);
+            if (res.ok) {
+                var json = await res.json();
+                approved = json.approved;
+                if (approved) {
+                    const imageProgress = document.getElementById("image-progress");
+                    imageProgress.innerHTML = ` ready!`;
+                    setCheckoutElems(json.thumbnail_url);
+                } else if (json.approved === 0) {
+                    setNotApproved();
+                    return;
+                }
+            }
+            else if (res.status === 404) {
+                const imageProgress = document.getElementById("image-progress");
+                imageProgress.innerHTML = ` not found`;
+                return;
+            }
+            await new Promise(resolve => setTimeout(resolve, 5000));
+        }
+    }
+
     const checkTaskProgress = async function(taskId) {
         var progress = 0;
         while (progress < 100) {
-            res = await fetch("/api/task/?id=" + taskId);
+            var res = await fetch("/api/task?id=" + taskId);
             if (res.ok) {
-                var json = await res.json();
+                var json = await res.json();                
                 progress = json.progress;
                 const imageProgress = document.getElementById("image-progress");
                 imageProgress.innerHTML = ` processing ${progress}%`;
-                if (progress === 100) {
-                    setCheckoutElems(json.thumbnail_url);
+                await fetch("/api/task?id=" + taskId, {
+                    headers: {"content-type": "application/json"},
+                    method: "PUT",
+                    body: JSON.stringify({
+                        approved: json.approved,
+                        progress: progress,
+                        thumbnail_url: json.thumbnail_url
+                    })
+                })
+                if (progress === 100) {                    
+                    imageProgress.innerHTML = ` under review`;
+                    checkTextReviewProgress(taskId);
                 }
+            }
+            else if (res.status === 404) {
+                progress = 100;
             }
             await new Promise(resolve => setTimeout(resolve, 5000));
         }
@@ -299,15 +302,18 @@
         if (res.ok) {
             json = await res.json();
             s3File = json.s3File;
+            const uploadPreviewContainer = document.getElementById("upload-preview-container");
+            uploadPreviewContainer.style.display = "flex";
             const modelViewer = document.getElementById("uploaded-3d-model");
             modelViewer.setAttribute("src", s3File);
+            modelViewer.style.display = 'block';
             const imageProgress = document.getElementById("image-progress");
             imageProgress.innerHTML = ` processing 100%`;      
-            setCheckoutElems(json.thumbnail_url);                
+            setCheckoutElems();                
             const previewThumbnail = document.getElementById("preview-thumbnail");
-            previewThumbnail.setAttribute('src', "/images/preview.png")
-            previewThumbnail.setAttribute('onclick', "open3dViewer()")
-            previewThumbnail.style.cursor = "pointer";  
+            previewThumbnail.setAttribute('src', "/images/preview.png");
+            previewThumbnail.setAttribute('onclick', "open3dViewer()");
+            previewThumbnail.style.cursor = "pointer";
         }
     }
     const open3dViewer = async function() {
@@ -346,7 +352,8 @@
             if (res.ok) {
                 json = await res.json();
                 taskId = json.taskId;        
-                localStorage.setItem("taskId", taskId);                      
+                localStorage.setItem("taskId", taskId);  
+                                       
                 await checkTaskProgress(taskId);
             }
         } else if (modelOptionRadioButton.checked) {

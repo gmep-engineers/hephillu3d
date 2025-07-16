@@ -8,6 +8,8 @@ const {
   S3ServiceException,
 } = require("@aws-sdk/client-s3");
 const createModel = require("../db/models/createModel");
+const updateModel = require("../db/models/updateModel");
+const apiMessageRes = require("../lib/apiMessageRes");
 
 const model = {
   post: async function (conn, dto, session) {
@@ -56,6 +58,10 @@ const model = {
       };
     }
     return { status: 201, payload: { s3File: s3File, modelId: modelId } };
+  },
+  put: async function (conn, dto) {
+    await updateModel(conn, dto);
+    return apiMessageRes(201, "updated");
   },
 };
 module.exports = model;

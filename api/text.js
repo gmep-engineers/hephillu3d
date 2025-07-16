@@ -1,8 +1,20 @@
+const createMeshyTask = require("../db/meshy_tasks/createMeshyTask");
+const readMeshyTask = require("../db/meshy_tasks/readMeshyTask");
 const config = require("../etc/config");
 const axios = require("axios");
+const apiPayloadRes = require("../lib/apiPayloadRes");
+const apiMessageRes = require("../lib/apiMessageRes");
 
 const text = {
-  post: async function (conn, dto) {
+  get: async function (conn, dto, session) {
+    const meshyTask = await readMeshyTask(conn, dto);
+    if (meshyTask) {
+      return apiPayloadRes(200, meshyTask);
+    } else {
+      return apiMessageRes(404, "not found");
+    }
+  },
+  post: async function (conn, dto, session) {
     const text = dto.text;
     const headers = { Authorization: `Bearer ${config.API_KEY}` };
     const payload = {
@@ -19,6 +31,11 @@ const text = {
         { headers }
       );
       taskId = response.data.result;
+      await createMeshyTask(conn, {
+        id: taskId,
+        owner_id: session.owner_id,
+        ip: dto.ip_address,
+      });
       return { status: 201, payload: { taskId: taskId } };
     } catch (err) {
       return { status: 400, payload: { error: err } };

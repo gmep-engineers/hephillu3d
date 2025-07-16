@@ -1,0 +1,23 @@
+<div class="flex-column padding-20 content-column-container">
+    <table>
+        <%- htmlCartItems %>
+        <tr>
+            <td>Subtotal</td>
+            <td>$<%= subtotal %></td>
+        </tr>
+        <tr>
+            <td>Shipping</td>
+            <td>$<%= shipping %></td>
+        </tr>
+        <% if (tax) { %>
+        <tr>
+            <td>Tax</td>
+            <td>$<%= tax %></td>
+        </tr>
+        <% } %>
+        <tr>
+            <td>Total</td>
+            <td>$<%= subtotal + shipping %></td>
+        </tr>
+    </table>
+</div>
