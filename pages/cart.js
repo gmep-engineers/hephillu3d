@@ -2,6 +2,7 @@ const cartItem = require("../components/cartItem");
 const readCartPageGalleryImageCartRels = require("../db-procedures/readCartPageGalleryImageCartRels");
 const readMeshyTasks = require("../db/meshy_tasks/readMeshyTasks");
 const readModels = require("../db/models/readModels");
+const readCart = require("../db/carts/readCart");
 const common = require("../lib/common");
 const mysql = require("mysql2/promise");
 
@@ -23,18 +24,26 @@ const cart = async function (req, conn, session) {
     conn = await mysql.createConnection(common.db);
     destroyConn = true;
   }
-  const models = await readModels(conn, { cart_id: req.cookies.cart_id });
+  var cart = await readCart(conn, { owner_id: session.owner_id });
+  if (!cart) {
+    cart = await readCart(conn, { session_id: session.id });
+  }
+  if (!cart) {
+    // show empty cart page
+  }
+  const models = await readModels(conn, { cart_id: cart.id });
   const meshyTasks = await readMeshyTasks(conn, {
-    cart_id: req.cookies.cart_id,
+    cart_id: cart.id,
   });
   const galleryImages = await readCartPageGalleryImageCartRels(conn, {
-    cart_id: req.cookies.cart_id,
+    cart_id: cart.id,
   });
   params.htmlCartItems = "";
   for (let i = 0; i < models.length; i++) {
     params.htmlCartItems += await cartItem({
       glowType: getGlowType(models[i].glow_id),
       has_led_candle: models[i].has_led_candle,
+      modelSrc: `https://${params.config.AWS_S3_BUCKET}.s3.${params.config.AWS_REGION}.amazonaws.com/${models[i].filename}`,
       type: "model",
     });
   }

@@ -2,7 +2,13 @@
     <div class="flex-row">
         <div class="content-column-invoice-preview-column" id="preview-result">
             <% if (type === "model") { %>
-            <img name="preview-thumbnail" style="border-radius: 7px" height=100 src="/images/preview.png" onclick="open3dViewer()" />
+            <model-viewer 
+            style="margin: auto; height: 400px; width: 400px;"
+            id="uploaded-3d-model"
+            alt="uploaded 3d model"
+            src="<%= modelSrc %>"
+            shadow-intensity="1"
+            camera-controls touch-action="pan-y"></model-viewer>
             <% } else { %>
             <img name="preview-thumbnail" style="border-radius: 7px" height=100 src="<%= imgSrc %>" />
             <% } %>

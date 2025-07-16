@@ -3,13 +3,13 @@ const readMeshyTasks = async function (conn, dto) {
   var result = [];
   if (dto.owner_id) {
     query = `select * from meshy_tasks where owner_id = ?`;
-    result = await conn.query(query, [dto.owner_id]);
+    [result] = await conn.query(query, [dto.owner_id]);
   } else if (dto.cart_id) {
     query = `select * from meshy_tasks where cart_id = ?`;
-    result = await conn.query(query, [dto.cart_id]);
+    [result] = await conn.query(query, [dto.cart_id]);
   } else if (dto.approved !== null) {
     query = `select * from meshy_tasks where approved = ?`;
-    result = await conn.query(query, [dto.approved]);
+    [result] = await conn.query(query, [dto.approved]);
   }
 
   const resList = [];

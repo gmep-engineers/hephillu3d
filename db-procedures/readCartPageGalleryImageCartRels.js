@@ -8,8 +8,8 @@ const readCartPageGalleryImageCartRels = async function (conn, dto) {
     gallery_images.url,
     gallery_images.name,
     gallery_images.description,
-    gallery_images.has_led_candle,
-    gallery_images.glow_id
+    gallery_image_cart_rel.has_led_candle,
+    gallery_image_cart_rel.glow_id
     from gallery_images
     left join gallery_image_cart_rel on gallery_image_cart_rel.image_id = gallery_images.id
     where gallery_image_cart_rel.cart_id = ?

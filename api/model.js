@@ -33,7 +33,7 @@ const model = {
       });
       try {
         await client.send(command);
-        s3File = `https://gmep-meshy-api-images-2025-06-10.s3.us-east-1.amazonaws.com/${storedFilename}`;
+        s3File = `https://${config.AWS_S3_BUCKET}.s3.${config.AWS_REGION}.amazonaws.com/${storedFilename}`;
         await unlink("./uploads/" + file.filename);
         modelId = await createModel(conn, {
           owner_id: session ? session.owner_id : null,

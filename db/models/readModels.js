@@ -3,13 +3,13 @@ const readModels = async function (conn, dto) {
   var result = [];
   if (dto.owner_id) {
     query = `select * from models where owner_id = ?`;
-    result = await conn.query(query, [dto.id]);
+    [result] = await conn.query(query, [dto.id]);
   } else if (dto.cart_id) {
     query = `select * from models where cart_id = ?`;
-    result = await conn.query(query, [dto.cart_id]);
+    [result] = await conn.query(query, [dto.cart_id]);
   } else if (dto.approved !== null) {
     query = `select * from models where approved = ?`;
-    result = await conn.query(query, [dto.approved]);
+    [result] = await conn.query(query, [dto.approved]);
   }
   const resList = [];
   for (let i = 0; i < result.length; i++) {
@@ -25,6 +25,7 @@ const readModels = async function (conn, dto) {
       has_led_candle: res.has_led_candle,
     });
   }
+  console.log(resList);
   return resList;
 };
 module.exports = readModels;
