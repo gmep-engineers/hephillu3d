@@ -41,6 +41,7 @@ const cart = async function (req, conn, session) {
   });
   for (let i = 0; i < models.length; i++) {
     params.htmlCartItems += await cartItem({
+      id: models[i].id,
       glowType: getGlowType(models[i].glow_id),
       has_led_candle: models[i].has_led_candle,
       modelSrc: `https://${params.config.AWS_S3_BUCKET}.s3.${params.config.AWS_REGION}.amazonaws.com/${models[i].filename}`,
@@ -49,6 +50,7 @@ const cart = async function (req, conn, session) {
   }
   for (let i = 0; i < meshyTasks.length; i++) {
     params.htmlCartItems += await cartItem({
+      id: meshyTasks[i].id,
       glowType: getGlowType(meshyTasks[i].glow_id),
       has_led_candle: meshyTasks[i].has_led_candle,
       imgSrc: meshyTasks[i].thumbnail_url,
@@ -57,6 +59,7 @@ const cart = async function (req, conn, session) {
   }
   for (let i = 0; i < galleryImages.length; i++) {
     params.htmlCartItems += await cartItem({
+      id: galleryImages[i].id,
       glowType: getGlowType(galleryImages[i].glow_id),
       has_led_candle: galleryImages[i].has_led_candle,
       imgSrc: galleryImages[i].url,

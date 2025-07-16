@@ -532,7 +532,7 @@ hr {
         filter: invert(48%) sepia(95%) saturate(1000%) hue-rotate(330deg)
             brightness(100%) contrast(85%);
     }
-    .cart-amount-text {
+    #cart-amount-text {
         position: absolute;
         left: -3px;
         top: -3px;
@@ -674,4 +674,11 @@ hr {
             cursor: pointer;
         }    
     }
+}
+
+.cart-remove-button {
+    margin-right: 50px;
+    font-size: 12px;
+    color: darkred;
+    cursor: pointer;
 }

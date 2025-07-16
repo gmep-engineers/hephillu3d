@@ -13,4 +13,13 @@ router.post("/add-item", async function (req, res) {
   const apiRes = await callPublicEndpoint(req, res, cartApi, "addItem", dto);
   res.status(apiRes.status).send(apiRes.payload);
 });
+
+router.post("/remove-item", async function (req, res) {
+  const dto = {
+    type: req.body.type,
+    id: req.body.id,
+  };
+  const apiRes = await callPublicEndpoint(req, res, cartApi, "removeItem", dto);
+  res.status(apiRes.status).send(apiRes.payload);
+});
 module.exports = router;

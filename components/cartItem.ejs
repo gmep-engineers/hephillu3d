@@ -1,4 +1,4 @@
-<div class="flex-column">
+<div class="flex-column" id="<%= type %>_<%= id %>_item">
     <div class="content-column-invoice-preview-column" id="preview-result">
         <% if (type === "model") { %>
         <model-viewer 
@@ -21,5 +21,30 @@
             LED Candle
         </div>
         <% } %>
+        <div class="cart-remove-button" id="<%= type %>_<%= id %>">(Remove)</div>
     </div>
 </div>
+<script>
+    var elemId = "<%= type %>_<%= id %>";
+    document.getElementById(elemId).addEventListener('click', async (event) => {
+        var type = event.target.id.split('_')[0];
+        var id = event.target.id.split('_')[1];
+        var res = await fetch('/api/cart/remove-item',
+            {
+                headers: {'content-type': 'application/json'},
+                body: JSON.stringify({
+                    type: type,
+                    id: id
+                }),
+                method: "POST"
+            }
+        );
+        if (res.ok) {
+            document.getElementById("<%= type %>_<%= id %>_item").style.display = 'none'
+            const cartAmountTextElem = document.getElementById('cart-amount-text');
+            var amount = parseInt(cartAmountTextElem.innerHTML);
+            var amount = amount - 1;
+            cartAmountTextElem.innerHTML = amount.toString();
+        }
+    });
+</script>

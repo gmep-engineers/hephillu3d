@@ -19,11 +19,12 @@ const cart = {
       });
       cart = await readCart(conn, { id: cartId });
     }
+    console.log(cart);
     if (dto.meshyTaskId) {
-      await updateMeshyTask(conn, { cart_id: cart.id });
+      await updateMeshyTask(conn, { cart_id: cart.id, id: dto.meshyTaskId });
     }
     if (dto.modelId) {
-      await updateModel(conn, { cart_id: cart.id });
+      await updateModel(conn, { cart_id: cart.id, id: dto.modelId });
     }
     if (dto.galleryImageId) {
       await createGalleryImageCartRel(conn, {
@@ -33,6 +34,30 @@ const cart = {
       });
     }
     return apiMessageRes(201, "item added to cart");
+  },
+  removeItem: async function (conn, dto, session) {
+    var cart = await readCart(conn, { owner_id: session.owner_id });
+    if (!cart) {
+      cart = await readCart(conn, { session_id: session.id });
+    }
+    if (!cart) {
+      return apiMessageRes(404, "cart not found");
+    }
+    if (dto.type === "meshyTask") {
+      await updateMeshyTask(conn, {
+        cart_id: "00000000-0000-0000-0000-000000000000",
+        id: dto.id,
+      });
+    }
+    if (dto.type === "model") {
+      await updateModel(conn, {
+        cart_id: "00000000-0000-0000-0000-000000000000",
+        id: dto.id,
+      });
+    }
+    if (dto.type === "galleryImage") {
+    }
+    return apiMessageRes(201, "item removed from cart");
   },
 };
 module.exports = cart;

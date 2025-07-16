@@ -5,7 +5,8 @@ const updateMeshyTask = async function (conn, dto) {
     update meshy_tasks set
     approved = ?,
     progress = ?,
-    thumbnail_url = ?
+    thumbnail_url = ?,
+    cart_id = ?
     where id = ?
     `;
 
@@ -15,6 +16,7 @@ const updateMeshyTask = async function (conn, dto) {
     dto.approved,
     dto.progress || meshyTask.progress,
     dto.thumbnail_url || meshyTask.thumbnail_url,
+    dto.cart_id || meshyTask.cart_id,
     dto.id,
   ]);
 };
