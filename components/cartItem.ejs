@@ -1,27 +1,25 @@
-<div class="flex-row">
-    <div class="flex-row">
-        <div class="content-column-invoice-preview-column" id="preview-result">
-            <% if (type === "model") { %>
-            <model-viewer 
-            style="margin: auto; height: 400px; width: 400px;"
-            id="uploaded-3d-model"
-            alt="uploaded 3d model"
-            src="<%= modelSrc %>"
-            shadow-intensity="1"
-            camera-controls touch-action="pan-y"></model-viewer>
-            <% } else { %>
-            <img name="preview-thumbnail" style="border-radius: 7px" height=100 src="<%= imgSrc %>" />
-            <% } %>
+<div class="flex-column">
+    <div class="content-column-invoice-preview-column" id="preview-result">
+        <% if (type === "model") { %>
+        <model-viewer 
+        style="margin: auto; height: 400px; width: 400px;"
+        id="uploaded-3d-model"
+        alt="uploaded 3d model"
+        src="<%= modelSrc %>"
+        shadow-intensity="1"
+        camera-controls touch-action="pan-y"></model-viewer>
+        <% } else { %>
+        <img name="preview-thumbnail" style="border-radius: 7px" height=100 src="<%= imgSrc %>" />
+        <% } %>
+    </div>
+    <div class="content-column-invoice-preview-column">                        
+        <div class="content-column-invoice-preview-column-subtitle" id="glow-option-value">
+            Size, <%= glowType %>
         </div>
-        <div class="content-column-invoice-preview-column">                        
-            <div class="content-column-invoice-preview-column-subtitle" id="glow-option-value">
-                Size, <%= glowType %>
-            </div>
-            <% if (has_led_candle) { %>
-            <div class="content-column-invoice-preview-column-candle-type" id="led-candle-value">
-                LED Candle
-            </div>
-            <% } %>
+        <% if (has_led_candle) { %>
+        <div class="content-column-invoice-preview-column-candle-type" id="led-candle-value">
+            LED Candle
         </div>
+        <% } %>
     </div>
 </div>

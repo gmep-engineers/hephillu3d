@@ -25,7 +25,6 @@ const readModels = async function (conn, dto) {
       has_led_candle: res.has_led_candle,
     });
   }
-  console.log(resList);
   return resList;
 };
 module.exports = readModels;
