@@ -4,7 +4,6 @@ const readMeshyTasks = require("../db/meshy_tasks/readMeshyTasks");
 const readModels = require("../db/models/readModels");
 const readCart = require("../db/carts/readCart");
 const common = require("../lib/common");
-const mysql = require("mysql2/promise");
 
 const getGlowType = function (glow_id) {
   switch (glow_id) {
@@ -20,11 +19,6 @@ const getGlowType = function (glow_id) {
 const cart = async function (req, conn, session) {
   const params = common.params;
   params.htmlCartItems = "";
-  var destroyConn = false;
-  if (!conn) {
-    conn = await mysql.createConnection(common.db);
-    destroyConn = true;
-  }
   var cart = await readCart(conn, { owner_id: session.owner_id });
   if (!cart) {
     cart = await readCart(conn, { session_id: session.id });
@@ -72,9 +66,6 @@ const cart = async function (req, conn, session) {
   params.subtotal = 0;
   params.tax = 0;
   params.shipping = 0;
-  if (destroyConn) {
-    conn.destroy();
-  }
   return await common.render("pages/cart", params);
 };
 module.exports = cart;

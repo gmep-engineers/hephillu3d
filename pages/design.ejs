@@ -365,9 +365,7 @@
         }
     }
 
-    const addToCart = async function() {    
-        console.log('modelid', modelId);
-        console.log('taskid', meshyTaskId)    
+    const addToCart = async function() {       
         const res = await fetch('/api/cart/add-item', {
             headers: { 'content-type': 'application/json' },
             body: JSON.stringify({

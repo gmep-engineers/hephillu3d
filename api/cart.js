@@ -19,7 +19,6 @@ const cart = {
       });
       cart = await readCart(conn, { id: cartId });
     }
-    console.log(cart);
     if (dto.meshyTaskId) {
       await updateMeshyTask(conn, { cart_id: cart.id, id: dto.meshyTaskId });
     }
