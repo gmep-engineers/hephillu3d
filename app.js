@@ -5,6 +5,7 @@ const admin = require("./pages/admin");
 const cart = require("./pages/cart");
 const home = require("./pages/home");
 const login = require("./pages/login");
+const settings = require("./pages/settings");
 const signUp = require("./pages/signUp");
 const design = require("./pages/design");
 const gallery = require("./pages/gallery");
@@ -21,6 +22,7 @@ const taskRouter = require("./routers/task");
 const textRouter = require("./routers/text");
 const getPrivatePage = require("./lib/getPrivatePage");
 const getAdminPage = require("./lib/getAdminPage");
+const getSettingsPage = require("./lib/getSettingsPage");
 
 const app = express();
 
@@ -99,6 +101,14 @@ app.get("/order", async (req, res) => {
   } else {
     await getPublicPage(req, res, order);
   }
+});
+
+app.get("/settings", async (req, res) => {
+  await getSettingsPage(req, res, settings);
+});
+
+app.get("/settings/:view", async (req, res) => {
+  await getSettingsPage(req, res, settings);
 });
 
 app.listen(3000, () => {

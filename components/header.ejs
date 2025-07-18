@@ -3,11 +3,11 @@
     <% if (session.owner_id) { %>
         <% if (session.admin_id) { %>
         <div class="header-links-container">
-            <a href="/admin">Admin</a><span class="separator">|</span><a href="/account">Account</a><span class="separator">|</span><a href="/api/logout">Logout</a>
+            <a href="/admin">Admin</a><span class="separator">|</span><a href="/settings">Settings</a><span class="separator">|</span><a href="/api/logout">Logout</a>
         </div>        
         <% } else { %>
             <div class="header-links-container">
-                <a href="/account">Account</a><span class="separator">|</span><a href="/api/logout">Logout</a>
+                <a href="/settings">Settings</a><span class="separator">|</span><a href="/api/logout">Logout</a>
             </div>         
         <% } %>    
     <% } else { %>

@@ -1,0 +1,115 @@
+<div class="flex-column">
+    <div>
+        <div class="account-view-textbox-container">            
+            <hr/>
+            <div class="labeled-textbox-container">
+                <div class="labeled-textbox-label">
+                    Email Address <span class="field-error" id="email-error"></span>
+                </div>
+                <input class="labeled-textbox-input" maxlength="63" id="email" value="<%= user.email_address %>"/>
+            </div>
+            <div class="labeled-textbox-container">
+                <div class="labeled-textbox-label">
+                    New Password <span class="field-error" id="password-new-error"></span>
+                </div>
+                <input class="labeled-textbox-input" maxlength="63" id="password-new"/>
+            </div>
+            <div class="labeled-textbox-container">
+                <div class="labeled-textbox-label">
+                    Current Password <span class="field-error" id="password-current-error"></span>
+                </div>
+                <input class="labeled-textbox-input" maxlength="63" id="password-current"/>
+            </div>           
+    
+            <div class="error-container" id="error-container">        
+            </div>
+        </div>             
+    </div>
+    <div class="margin-auto account-view-button">
+        <button class="button" onclick="handleSubmit()">Submit</button>
+    </div>
+
+    <div class="margin-auto account-hidden-options-label" id="hidden-options-label" onclick="showHideHiddenOptions()">
+        Show Hidden Options
+    </div>
+
+    <div style="display: none" id="hidden-options">
+        <div class="margin-auto flex-row account-view-button">
+            <button class="warning-button">Delete Account</button>
+        </div>    
+    </div>
+    
+    
+</div>
+<script>
+  
+    const showHideHiddenOptions = function() {
+        var hiddenOptionsElem = document.getElementById('hidden-options');
+        if (hiddenOptionsElem.style.display === 'none') {
+            document.getElementById('hidden-options-label').innerHTML = "Hide Hidden Options";
+            hiddenOptionsElem.style.display = 'flex';
+        } else {
+            document.getElementById('hidden-options-label').innerHTML = "Show Hidden Options";
+            hiddenOptionsElem.style.display = 'none';
+        }        
+    }
+    
+    const emailTextBox = document.getElementById("email");
+    const passwordNewTextBox = document.getElementById("password-new");
+    const passwordCurrentTextBox = document.getElementById("password-current");
+
+    const setFieldError = function (fieldLabel, error) {
+        const elem = document.getElementById(fieldLabel.id + "-error");
+        elem.innerHTML = error;
+        fieldLabel.style.borderColor = "red";
+        fieldLabel.style.backgroundColor = "mistyrose";
+    };
+
+    const setFieldOk = function (fieldLabel) {
+        const elem = document.getElementById(fieldLabel.id + "-error");
+        elem.innerHTML = '';
+        fieldLabel.style.borderColor = "rgb(127,127,127,0.4)";
+        fieldLabel.style.backgroundColor = "white";
+    };
+    const handleSubmit = async function () {
+        if (
+            emailTextBox.value.length > 0 && (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailTextBox.value) || emailTextBox.value.length > 63)
+        ) {
+            setFieldError(emailTextBox, "invalid email address");
+        } else {
+            setFieldOk(emailTextBox);
+        }
+
+        if (passwordNewTextBox.value.length > 0 && passwordNewTextBox.value.length < 8) {
+            setFieldError(passwordNewTextBox, 'new password is too short');
+        } else {
+            setFieldOk(passwordNewTextBox);
+        }
+
+        const fieldErrorElems = document.getElementsByClassName('field-error')
+        for (let i = 0; i < fieldErrorElems.length; i++) {
+            var elem = fieldErrorElems[i];
+            if (elem.innerHTML.length > 0) {
+                return;
+            }
+        }
+        var body = JSON.stringify({
+            emailAddress: emailTextBox.value,
+            passwordNew: passwordNewTextBox.value,
+            passwordCurrent: passwordCurrentTextBox.value
+        })
+        var res = await fetch('/api/user', {
+            headers: {'content-type': "application/json"},
+            body: body,
+            method: 'PUT'
+        });
+        if (res.ok) {
+            const errorContainer = document.getElementById('error-container');
+            errorContainer.style.color = 'green';
+            errorContainer.innerHTML = "Account Updated";
+        } else {
+            var json = await res.json();
+            // HERE set errors
+        }
+    }  
+</script>

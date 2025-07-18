@@ -601,23 +601,26 @@ hr {
     height: auto;
 }
 
-.admin-container {
+.tabbed-view-container {
     display: grid;
     grid-template-areas:
     "options-container view-container";
     grid-template-columns: 100px auto;
     gap: 10px;
     padding: 20px;
+    height: 100%;
 }
 
-.admin-container > div  {
+.tabbed-view-container > div  {
     display: flex;
     flex-direction: column;
 }
 
-.admin-container > div.options-container {
+.tabbed-view-container > div.options-container {
     grid-area: options-container;
 
+    background-color: rgba(255, 255, 255, 0.5);
+    padding-left: 10px;
     .option {
         font-size: 16px;
         margin: 5px;
@@ -625,15 +628,15 @@ hr {
 
         a {
             text-decoration: none;
-            color: var(--font-color-1);
+            color: var(--link-color);
         }
     }
 }
 
-.admin-container > div.view-container {
+.tabbed-view-container > div.view-container {
     grid-area: view-container;
-    min-width: 1200px
-    
+    width: 110%;
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
 .upload-preview {
@@ -682,3 +685,49 @@ hr {
     color: darkred;
     cursor: pointer;
 }
+
+.account-hidden-options-label {
+  margin-top: 20px;
+  font-style: italic;
+  color: var(--link-color-alt);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.account-hidden-options-text {
+  margin-top: 6px;
+  margin-left: 8px;
+  font-style: italic;
+  font-size: 12px;
+}
+
+.account-view-textbox-container {
+  width: 300px;
+  margin: auto;
+
+  hr {
+    background-color: var(--hr-color-lite);
+    margin-top: 15px;
+  }
+
+  .error-container {
+    margin-top: 20px;
+    color: red;
+  }
+}
+
+.account-view-button {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+
+    button {
+        width: 128px;
+        height: 30px;
+        font-size: 14px;
+        font-weight: 500;
+        border-radius: 10px;
+        cursor: pointer;
+    } 
+}
+
