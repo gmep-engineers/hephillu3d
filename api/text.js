@@ -4,6 +4,8 @@ const config = require("../etc/config");
 const axios = require("axios");
 const apiPayloadRes = require("../lib/apiPayloadRes");
 const apiMessageRes = require("../lib/apiMessageRes");
+const readUser = require("../db/users/readUser");
+const updateUser = require("../db/users/updateUser");
 
 const text = {
   get: async function (conn, dto, session) {
@@ -15,6 +17,10 @@ const text = {
     }
   },
   post: async function (conn, dto, session) {
+    const user = await readUser(conn, { id: session.owner_id });
+    if (user.meshy_credits <= 0) {
+      return apiMessageRes(400, "insufficient credits");
+    }
     const text = dto.text;
     const headers = { Authorization: `Bearer ${config.API_KEY}` };
     const payload = {
@@ -35,6 +41,10 @@ const text = {
         id: taskId,
         owner_id: session.owner_id,
         ip: dto.ip_address,
+      });
+      await updateUser(conn, {
+        meshy_credits: user.meshy_credits - 1,
+        id: session.owner_id,
       });
       return { status: 201, payload: { taskId: taskId } };
     } catch (err) {

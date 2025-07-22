@@ -25,14 +25,26 @@
             </div>      
             <div class="content-column-radio-button-list-item">
                 <% if (session.owner_id) { %>
-                <input
-                    type="radio"
-                    id="text-option-radio-button"
-                    name="upload-option"
-                    class="radio"
-                    onclick="showHidePromptInput()"                    
-                />
-                <label for="upload-options" class="content-column-radio-button-label">Type a description and let our AI create your model!</label>  
+                    <%if (meshy_credits > 0) { %>
+                        <input
+                            type="radio"
+                            id="text-option-radio-button"
+                            name="upload-option"
+                            class="radio"
+                            onclick="showHidePromptInput()"                    
+                        />
+                        <label for="upload-options" class="content-column-radio-button-label">(<%= meshy_credits %> credit<%= creditsPlural %> remaning) Type a description and let our AI create your model!</label> 
+                    <% } else { %>
+                        <input
+                            type="radio"
+                            id="text-option-radio-button"
+                            name="upload-option"
+                            class="radio"
+                            onclick="showHidePromptInput()"    
+                            disabled                
+                        />
+                        <label for="upload-options" class="content-column-radio-button-label" style="font-style: italic; color: gray;">Out of credits! Add more credits in account settings.</label> 
+                    <% } %>                 
                 <% } else { %>
                 <input
                     type="radio"

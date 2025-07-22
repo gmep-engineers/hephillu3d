@@ -4,7 +4,10 @@ const updateUser = async function (conn, dto) {
   var query = `
     update users set
     email_address = ?,
-    passhash = ?
+    passhash = ?,
+    date_activated = ?, 
+    date_deleted = ?,
+    meshy_credits = ?
     where id = ?
     `;
   const user = await readUser(conn, dto);
@@ -18,6 +21,9 @@ const updateUser = async function (conn, dto) {
   await conn.query(query, [
     dto.email_address || user.email_address,
     dto.passhash || user.passhash,
+    dto.date_activated || user.date_activated,
+    dto.date_deleted || user.date_deleted,
+    dto.meshy_credits !== undefined ? dto.meshy_credits : user.meshy_credits,
     dto.id || user.id,
   ]);
 };
